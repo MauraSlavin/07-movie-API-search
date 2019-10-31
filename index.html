@@ -16,7 +16,7 @@
     <!-- Header for the page -->
     <h3>Finding New Songs I like</h3>
 
-    
+
     <!--added search input with placeholder-->
 
     <div class="row">
@@ -27,81 +27,78 @@
                 </div>
             </div>
         </form>
-     </div>   
+    </div>
 
 
+    <!-- I've put five songs.  These will be dynamically created; one for each song the user enteres -->
+    <ul id="dropdown0" class="dropdown-content">
+        <li><a href="lyrics.html">My Life by Billy Joel</a></li>
+        <!-- These are the list of songs similar to the song the user entered -->
+        <li><a href="#">Song 2</a></li>
+        <li><a href="#">Song 3</a></li>
+        <li><a href="#">Song 4</a></li>
+    </ul>
+    <a class="btn dropdown-button" href="#" data-activates="dropdown0">My Life (Billy Joel)
+        <i class="mdi-navigation-arrow-drop-down right"></i></a>
+
+    <br>
+    <br>
+
+    <!-- second song the user entered -->
+    <ul id="dropdown1" class="dropdown-content">
+        <li><a href="#">Royals by Lorde</a></li>
+        <li><a href="#">Song 2</a></li>
+        <li><a href="#">Song 3</a></li>
+        <li><a href="#">Song 4</a></li>
+    </ul>
+    <a class="btn dropdown-button" href="#" data-activates="dropdown1">Royals (Lorde)
+        <i class="mdi-navigation-arrow-drop-down right"></i></a>
+
+    <br>
+    <br>
+
+    <!-- third song the user entered -->
+    <ul id="dropdown2" class="dropdown-content">
+        <li><a href="#">You're Welcome (Dwayne Johnson)</a></li>
+        <li><a href="#">Song 2</a></li>
+        <li><a href="#">Song 3</a></li>
+        <li><a href="#">Song 4</a></li>
+    </ul>
+    <a class="btn dropdown-button" href="#" data-activates="dropdown2">You're Welcome (Dwayne Johnson)
+        <i class="mdi-navigation-arrow-drop-down right"></i></a>
+
+    <br>
+    <br>
+
+    <!-- fourth song the user entered -->
+    <ul id="dropdown3" class="dropdown-content">
+        <li><a href="#">Screen Door on a Submarine</a></li>
+        <li><a href="#">Song 2</a></li>
+        <li><a href="#">Song 3</a></li>
+        <li><a href="#">Song 4</a></li>
+    </ul>
+    <a class="btn dropdown-button" href="#" data-activates="dropdown3">Screen Door on a Submarine
+        <i class="mdi-navigation-arrow-drop-down right"></i></a>
+
+    <br>
+    <br>
+
+    <!-- fifth song the user entered -->
+    <ul id="dropdown4" class="dropdown-content">
+        <li><a href="#">The Monster Mash</a></li>
+        <li><a href="#">Song 2</a></li>
+        <li><a href="#">Song 3</a></li>
+        <li><a href="#">Song 4</a></li>
+    </ul>
+    <a class="btn dropdown-button" href="#" data-activates="dropdown4">The Monster Mash
+        <i class="mdi-navigation-arrow-drop-down right"></i></a>
 
 
-
-
-            <!-- I've put five songs.  These will be dynamically created; one for each song the user enteres -->
-            <ul id="dropdown0" class="dropdown-content">
-                <li><a href="lyrics.html">My Life by Billy Joel</a></li>
-                <!-- These are the list of songs similar to the song the user entered -->
-                <li><a href="#">Song 2</a></li>
-                <li><a href="#">Song 3</a></li>
-                <li><a href="#">Song 4</a></li>
-            </ul>
-            <a class="btn dropdown-button" href="#" data-activates="dropdown0">My Life (Billy Joel)
-                <i class="mdi-navigation-arrow-drop-down right"></i></a>
-
-            <br>
-            <br>
-
-            <!-- second song the user entered -->
-            <ul id="dropdown1" class="dropdown-content">
-                <li><a href="#">Royals by Lorde</a></li>
-                <li><a href="#">Song 2</a></li>
-                <li><a href="#">Song 3</a></li>
-                <li><a href="#">Song 4</a></li>
-            </ul>
-            <a class="btn dropdown-button" href="#" data-activates="dropdown1">Royals (Lorde)
-                <i class="mdi-navigation-arrow-drop-down right"></i></a>
-
-            <br>
-            <br>
-
-            <!-- third song the user entered -->
-            <ul id="dropdown2" class="dropdown-content">
-                <li><a href="#">You're Welcome (Dwayne Johnson)</a></li>
-                <li><a href="#">Song 2</a></li>
-                <li><a href="#">Song 3</a></li>
-                <li><a href="#">Song 4</a></li>
-            </ul>
-            <a class="btn dropdown-button" href="#" data-activates="dropdown2">You're Welcome (Dwayne Johnson)
-                <i class="mdi-navigation-arrow-drop-down right"></i></a>
-
-            <br>
-            <br>
-
-            <!-- fourth song the user entered -->
-            <ul id="dropdown3" class="dropdown-content">
-                <li><a href="#">Screen Door on a Submarine</a></li>
-                <li><a href="#">Song 2</a></li>
-                <li><a href="#">Song 3</a></li>
-                <li><a href="#">Song 4</a></li>
-            </ul>
-            <a class="btn dropdown-button" href="#" data-activates="dropdown3">Screen Door on a Submarine
-                <i class="mdi-navigation-arrow-drop-down right"></i></a>
-
-            <br>
-            <br>
-
-            <!-- fifth song the user entered -->
-            <ul id="dropdown4" class="dropdown-content">
-                <li><a href="#">The Monster Mash</a></li>
-                <li><a href="#">Song 2</a></li>
-                <li><a href="#">Song 3</a></li>
-                <li><a href="#">Song 4</a></li>
-            </ul>
-            <a class="btn dropdown-button" href="#" data-activates="dropdown4">The Monster Mash
-                <i class="mdi-navigation-arrow-drop-down right"></i></a>
-
-
-            <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js">
-            </script>
-            <script type="text/javascript" src="musicAPI.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js">
+    </script>
+    <script type="text/javascript" src="musicAPI.js"></script>
+    <script type="text/javascript" src="script.js"></script>
 </body>
 
 </html>
