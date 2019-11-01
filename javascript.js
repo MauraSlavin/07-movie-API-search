@@ -66,3 +66,23 @@ $.ajax({
     console.log("Rating (meta): " + movie.metaRating);
     console.log("Stars:  " + movie.stars);
 });
+
+$("#search-button").on("click", function(event){
+    event.preventDefault();
+    alert("hello");
+    var newCard = $('<ul class="collapsible cardEl"></ul>');
+    var liEl = $('<li></li>');
+    var titleEl = $('<div class="collapsible-header titleEl"></div>');
+    var listBody = $('<div class="collapsible-body">');
+    var newRow = $('<div class="row"></div>');
+    var posterEl = $('<div class="col s8 posterEl"></div>');
+    var yearEtcEl= $('<div class="col s4 yearEtcEl"></div>')
+
+    $(document.body).append(newCard);
+    $(newCard).append(liEl)
+    $(liEl).append(titleEl);
+    $(titleEl).append(listBody);
+    $(listBody).append(newRow);
+    $(newRow).append(posterEl);
+    $(newRow).append(yearEtcEl);
+});
