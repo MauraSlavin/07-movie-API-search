@@ -14,7 +14,7 @@ $.ajax({
 // This is for the nyt movie review api
 
 $.ajax({
-    url: "https://api.nytimes.com/svc/movies/v2/reviews/search.json?query=batman&api-key=zZrGvMTHO8rZYgmqMozo6nBXMVSdTemM",
+    url: "https://api.nytimes.com/svc/movies/v2/reviews/search.json?query=space+jam&api-key=zZrGvMTHO8rZYgmqMozo6nBXMVSdTemM",
     method: "GET"
 }).then(function(responce){
     console.log(responce);
