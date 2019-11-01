@@ -1,7 +1,8 @@
 // the tastedive api key is 348815-07musicA-UK0GNRNO
-
+// the omdb api key thats not trilogy is bdc51342
 
 // ajax to the tastedive api
+// The cors-anywhere-heroku thing is a work-around for cors errors
 
 $.ajax({
     url: "https://cors-anywhere.herokuapp.com/https://tastedive.com/api/similar?q=Aladdin&k=348815-07musicA-UK0GNRNO",
@@ -9,13 +10,6 @@ $.ajax({
 }).then(function (responce) {
     console.log(responce)
 });
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-// movie memes
-
-
 
 // This is for the nyt movie review api
 
@@ -29,7 +23,7 @@ $.ajax({
 // // This is for omdb
 
 $.ajax({
-    url: "https://www.omdbapi.com/?t=lebowski&apikey=bdc51342",
+    url: "https://www.omdbapi.com/?t=space+jam&y=&plot=short&apikey=trilogy",
     method: "GET"
 }).then(function(responce){
     console.log(responce);
