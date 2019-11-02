@@ -116,4 +116,5 @@ $("#search-button").on("click", function(event){
 
     // adds new ul at the end of the document
     $(document.body).append(newCard);  // Maura: do this last?  Build card first, then append it?
+    $(".collapsible").collapsible();
 });
