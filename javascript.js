@@ -5,10 +5,24 @@
 // The cors-anywhere-heroku thing is a work-around for cors errors
 
 $.ajax({
-    url: "https://cors-anywhere.herokuapp.com/https://tastedive.com/api/similar?q=Aladdin&k=348815-07musicA-UK0GNRNO",
+    url: "https://cors-anywhere.herokuapp.com/https://tastedive.com/api/similar?q=space+jam&k=348815-07musicA-UK0GNRNO",
     method: "GET"
 }).then(function (responce) {
-    console.log(responce)
+    console.log(responce);
+    for (var i = 0; i < 3; i++) {
+
+        // Then dynamicaly generating buttons for each movie in the array
+        // Creates a button
+        var x = $("<button>");
+        // Adds a class of movie-btn to the button
+        x.addClass("movie-btn");
+        // Adding a data-attribute
+        x.attr("data-name", responce.Similar.Results[i].Name);
+        // Button text
+        x.text([responce.Similar.Results[i].Name]);
+        // Appending the button to the page
+        $("#space_jam-similar").append(x);
+      }
 });
 
 // This is for the nyt movie review api
