@@ -86,6 +86,7 @@ $("#search-button").on("click", function (event) {
 
     inputMovie = $(".movie-input").val();
 
+    // query to OMDB to find movie info for movie user search
     $.ajax({
         url: `https://www.omdbapi.com/?t=${inputMovie}&y=&plot=short&apikey=trilogy`,
         method: "GET"
@@ -112,10 +113,10 @@ $("#search-button").on("click", function (event) {
     var titleEl = $(`<div class="collapsible-header titleEl"><i class="material-icons">arrow_drop_down_circle</i>${movie.title}</div>`);
     var listBody = $('<div class="collapsible-body">');
     var newRow = $('<div class="row"></div>');
-    var posterEl = $('<div class="col s8 posterEl"></div>');
+    var posterEl = $('<div class="col s8 m8 l8 posterEl"></div>');
     var textYearDirRat = `Year:  ${movie.year};  Director:  ${movie.director};  Rating:  ${movie.rating}`
-    var yearEtcEl = $(`<div class="col s4 yearEtcEl">${textYearDirRat}</div>`)
-
+    var yearEtcEl = $(`<div class="col s4 m4 l4 yearEtcEl">${textYearDirRat}</div>`)
+    
     // add the poster to the new row that will be in the body
     // actual poster data still needs to be set
     $(newRow).append(posterEl);
