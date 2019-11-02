@@ -23,6 +23,12 @@ var inputMovie = "";
 // ajax to the tastedive api
 // The cors-anywhere-heroku thing is a work-around for cors errors
 
+// Alice: added instance var from Materialize
+var elems = document.querySelector('.collapsible');
+var instances = M.Collapsible.init(elems);
+instances.open();
+
+
 $.ajax({
     url: "https://cors-anywhere.herokuapp.com/https://tastedive.com/api/similar?q=space+jam&k=348815-07musicA-UK0GNRNO",
     method: "GET"
