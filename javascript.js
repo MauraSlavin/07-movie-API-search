@@ -70,19 +70,36 @@ $.ajax({
 $("#search-button").on("click", function(event){
     event.preventDefault();
     alert("hello");
+
+    // Maura:  This adds the elements in the new ul, but doesn't display it on the page, yet
+
+    // Maura: Are we adding a whole new list every time someone searches a movie?
+    //      I thought we were adding an li?
     var newCard = $('<ul class="collapsible cardEl"></ul>');
-    var liEl = $('<li></li>');
-    var titleEl = $('<div class="collapsible-header titleEl"></div>');
+    var liEl = $('<li class="active"></li>');  //Maura added active to display on the page
+    var titleEl = $(`<div class="collapsible-header titleEl"><i class="material-icons">arrow_drop_down_circle</i>${movie.title}</div>`);
     var listBody = $('<div class="collapsible-body">');
     var newRow = $('<div class="row"></div>');
     var posterEl = $('<div class="col s8 posterEl"></div>');
-    var yearEtcEl= $('<div class="col s4 yearEtcEl"></div>')
-
-    $(document.body).append(newCard);
-    $(newCard).append(liEl)
-    $(liEl).append(titleEl);
-    $(titleEl).append(listBody);
-    $(listBody).append(newRow);
+    var textYearDirRat = `Year:  ${movie.year};  Director:  ${movie.director};  Rating:  ${movie.rating}`
+    var yearEtcEl= $(`<div class="col s12 yearEtcEl">${textYearDirRat}</div>`)
+    
+    // add the poster to the new row that will be in the body
+    // actual poster data still needs to be set
     $(newRow).append(posterEl);
+    
+    // add Year, Director, Rating to newrow block
     $(newRow).append(yearEtcEl);
+
+    // add newrow to the body
+    $(listBody).append(newRow);
+
+    // put header & body on the li before appending to the ul
+    $(liEl).append(titleEl);  // adds a header to the li
+    $(liEl).append(listBody);  // adds a body to the li after the header
+    $(newCard).append(liEl);  // newCard is ul; this adds an li to the ul
+
+
+    // adds new ul at the end of the document
+    $(document.body).append(newCard);  // Maura: do this last?  Build card first, then append it?
 });
