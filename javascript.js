@@ -144,31 +144,7 @@ $("#search-button").on("click", function (event) {
     });
 
 
-    var newCard = $(".collapsible");
-    var liEl = $('<li></li>');  //New li for each movie//
-    var titleEl = $(`<div class="collapsible-header titleEl"><i class="material-icons">arrow_drop_down_circle</i>${title}</div>`);
-    var listBody = $('<div class="collapsible-body">');
-    var newRow = $('<div class="row"></div>');
 
-    var posterEl = $(`<div class="col s8 m8 l8 posterEl"><img src=${poster} alt="poster image"></div>`);
-    var textYearDirRat = `Year:  ${year};  Director:  ${director};  Rating:  ${rating}`
-    var yearEtcEl= $(`<div class="col s4 m4 l4 yearEtcEl">${textYearDirRat}</div>`)
-
-    
-    // add the poster to the new row that will be in the body
-    // actual poster data still needs to be set
-    $(newRow).append(posterEl);
-
-    // add Year, Director, Rating to newrow block
-    $(newRow).append(yearEtcEl);
-
-    // add newrow to the body
-    $(listBody).append(newRow);
-
-    // put header & body on the li before appending to the ul
-    $(liEl).append(titleEl); // adds a header to the li
-    $(liEl).append(listBody);  // adds a body to the li after the header
-    $(newCard).prepend(liEl)
     $("#card-container").prepend(newCard);
 
     var elem = document.querySelector('.collapsible'); // grabbing new movie dropdown
