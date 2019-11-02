@@ -82,7 +82,7 @@ $("#search-button").on("click", function(event){
     var newRow = $('<div class="row"></div>');
     var posterEl = $('<div class="col s8 posterEl"></div>');
     var textYearDirRat = `Year:  ${movie.year};  Director:  ${movie.director};  Rating:  ${movie.rating}`
-    var yearEtcEl= $(`<div class="col s12 yearEtcEl">${textYearDirRat}</div>`)
+    var yearEtcEl= $(`<div class="col s4 yearEtcEl">${textYearDirRat}</div>`)
     
     // add the poster to the new row that will be in the body
     // actual poster data still needs to be set
