@@ -93,18 +93,19 @@ $("#search-button").on("click", function (event) {
             var titleEl = $(`<div class="collapsible-header titleEl"><i class="material-icons">arrow_drop_down_circle</i>${responseOMDB.Title}</div>`);
             // card body has the rest of the info
             var listBody = $('<div class="collapsible-body">');
-            // new row has the poster, year, director & MPAA rating
+            // new row has the poster, year, director, MPAA rating, stars
             var newRow = $('<div class="row"></div>');
 
             // put the poster, year, director, rating in the respective new elements
             var posterEl = $(`<div class="col s8 m8 l8 posterEl"><img src=${responseOMDB.Poster} alt="poster image"></div>`);
-            var yearEl = $(`<div class="center-align"><p>Year:  ${responseOMDB.Year}</p></div>`);
-            var dirEl = $(`<div class="center-align"><p>Director:  ${responseOMDB.Director}</p></div>`);
-            var ratgEl = $(`<div class="center-align"><p>MPAA Rating:  ${responseOMDB.Rated}</p></div>`);
+            var yearEl = $(`<div class="movieDetail"><p>Year:  ${responseOMDB.Year}</p></div>`);
+            var dirEl = $(`<div class="movieDetail"><p>Director:  ${responseOMDB.Director}</p></div>`);
+            var ratgEl = $(`<div class="movieDetail"><p>MPAA Rating:  ${responseOMDB.Rated}</p></div>`);
+            var starsEl = $(`<div class="movieDetail"><p>Stars:  ${responseOMDB.Actors}</p></div>`);
             var yearEtcEl = $(`<div class="col s4 m4 l4 yearEtcEl"></div>`)
 
             // add the year, director, rating to the div to the right of the poster
-            $(yearEtcEl).append(yearEl).append(dirEl).append(ratgEl);
+            $(yearEtcEl).append(yearEl).append(dirEl).append(ratgEl).append(starsEl);
 
 
             // add the poster to the new row that will be in the body
@@ -130,18 +131,22 @@ $("#search-button").on("click", function (event) {
             reviewEla.attr("target", "_blank");   // to open in a new tab
             $(reviewEldiv).append(reviewEla);
             $(listBody).append(reviewEldiv);
-
+            
             // put header & body on the li before appending to the ul
             $(liEl).append(titleEl); // adds a header to the li
             $(liEl).append(listBody);  // adds a body to the li after the header
             $(newCard).prepend(liEl)
             $("#card-container").prepend(newCard);
             // Add new movie to the top of the list of searched movies
-       
-       
+            
+            
             // Put in query to make sure it's defined before using
-       //     $("#card-container").prepend(newCard);
-
+            //     $("#card-container").prepend(newCard);
+            
+            // This has to go in .then block so it doesn't re-open the old first movie before the new one is prepended
+            var elem = document.querySelector('.collapsible'); // grabbing new movie dropdown
+            var newMovie = M.Collapsible.init(elem);
+            newMovie.open(); // new movie dropdown opens 
 
         });   // end of ajax query to OMDB for movie searched
     });   // end of ajax query to NYTimes for review links
@@ -156,14 +161,5 @@ $("#search-button").on("click", function (event) {
         console.log(responseTD);
     });   // end of ajax query to TasteDive for similar movies
 
-
-
-
-
-
-
-    var elem = document.querySelector('.collapsible'); // grabbing new movie dropdown
-    var newMovie = M.Collapsible.init(elem);
-    newMovie.open(); // new movie dropdown opens 
 
 });

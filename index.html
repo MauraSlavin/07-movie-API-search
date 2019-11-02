@@ -31,10 +31,10 @@
                     <i class="material-icons prefix" id="search-button">search</i>
                     <input id="icon_prefix" type="text" class="validate movie-input">
                     <label for="icon_prefix">Search for a movie...</label>
-                </div>  <!-- end of input field div -->
-            </div>  <!-- end of row with input field -->
-        </form>  
-    </div>  <!-- end of row that contains the input field -->
+                </div> <!-- end of input field div -->
+            </div> <!-- end of row with input field -->
+        </form>
+    </div> <!-- end of row that contains the input field -->
 
     <!-- Holds all information for the default movie -->
     <div id="card-container">
@@ -43,40 +43,37 @@
         <ul class="collapsible first-movie" data-movie="Space-Jam">
 
             <!-- Each li is a card.  The header of the card is the title of the movie; the body is all the movie info -->
-            <li>  <!-- each movie is it's own li.  Default movie is the first -->
+            <li>
+                <!-- each movie is it's own li.  Default movie is the first -->
 
                 <div class="collapsible-header"><i class="material-icons">arrow_drop_down_circle</i>Space Jam
-                </div>  <!-- end of title with drop down (expand) arrow -->
+                </div> <!-- end of title with drop down (expand) arrow -->
 
-                <div class="collapsible-body">  <!-- all the data about the movie -->
+                <div class="collapsible-body">
+                    <!-- all the data about the movie -->
 
 
-                    <div class="row">          <!-- for poster, year, director, MPAA rating -->
+                    <div class="row">
+                        <!-- for poster, year, director, MPAA rating -->
 
-                        <div class="col s8 m8 l8">   <!-- poster -->
+                        <div class="col s8 m8 l8">
+                            <!-- poster -->
                             <img src="https://imgc.allpostersimages.com/img/print/u-g-F4S5S30.jpg?w=900&h=900&p=0">
                         </div> <!-- of poster -->
 
                         <!-- display the year, director, mpaa next to the poster -->
                         <!-- each item (year, director, rating) is on its own row -->
-                        <div class="col s3 m3 l3">  <!-- year, director, MPAA rating -->
-                            <div class="row">
-                                <div class="center-align valign-wrapper">
-                                    <p>Year: 1984</p>
-                                </div>
-
-                                <div class="center-align valign-wrapper">
-                                    <p>Director: Whomever</p>
-                                </div>
-
-                                <div class="center-align valign-wrapper">
-                                    <p>MPAA Rating: PG</p>
-                                </div>
-                            </div> <!-- of row with year, director, rating -->
+                        <div class="col s3 m3 l3">
+                            <ul class="row">
+                                <!--  list with year, director, MPAA rating, stars -->
+                                <li class="collection-item">Year: 1984</li>
+                                <li class="collection-item">Director: Whomever</li>
+                                <li class="collection-item">MPAA Rating: PG</li>
+                                <li class="collection-item">Stars: Bugs Bunny, Michael Jordon</li>
+                            </ul> <!-- end of list of movie details beside poster -->
                         </div> <!-- small column for year, director, rating -->
 
-                    </div> <!-- row with poster on the left & more details on the right -->
-
+                    </div> <!-- end of row with poster and other details to the right -->
 
                     <div class="row center-align s12 m12 l12" id="space_jam-plot">
                         <!-- This is where the plot will go -->
@@ -90,16 +87,19 @@
                         <!-- This is where the similiar buttons will go -->
                     </div>
 
-                </div>  <!-- end of div of collapsible body of card with all movie details  -->
+                </div> <!-- end of collapsible body with all movie details (except header) in it -->
+            </li> <!-- end of li for this movie -->
+        </ul> <!-- end of unorder list -->
+    </div> <!-- end of div of collapsible body of card with all movie details  -->
 
 
-                <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-                    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous">
-                </script>
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js">
-                </script>
-                <script type="text/javascript" src="materialize/js/materialize.min.js"></script>
-                <script type="text/javascript" src="javascript.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous">
+        </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js">
+    </script>
+    <script type="text/javascript" src="materialize/js/materialize.min.js"></script>
+    <script type="text/javascript" src="javascript.js"></script>
 </body>
 
 </html>

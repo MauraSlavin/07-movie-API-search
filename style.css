@@ -5,3 +5,7 @@ body {
 img {
     width: 100%;
 }
+
+.collection-item {
+    margin-bottom: 10px;
+}
