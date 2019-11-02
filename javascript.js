@@ -1,18 +1,3 @@
-// data needed for each movie
-var title = "";
-var poster = "";
-var year = "";
-var director = "";
-var rating = "";
-var similarMovies = [];
-var review = "";
-var metaSource = "";
-var metaRating = "";
-
-
-// array of "movie" objects, to hold all the movies searched (including default) & related data
-var movies = [];
-
 // variable to receive user's input - a string that should be a movie title
 var inputMovie = "";
 
@@ -110,17 +95,21 @@ $("#search-button").on("click", function (event) {
         
         // add the year, director, rating to the div to the right of the poster
         $(yearEtcEl).append(yearEl).append(dirEl).append(ratgEl);
-
-
+        
+        
         // add the poster to the new row that will be in the body
         // actual poster data still needs to be set
         $(newRow).append(posterEl);
-
+        
         // add Year, Director, Rating to newrow block
         $(newRow).append(yearEtcEl);
-
+        
         // add newrow to the body of the card
         $(listBody).append(newRow);
+        
+        // add plot under the poster & other info
+        var plotEl = $(`<div class="center-align"><p>${response.Plot}</p></div>`);
+        $(listBody).append(plotEl);
 
         // put header & body on the li before appending to the ul
         $(liEl).append(titleEl); // adds a header to the li
@@ -142,6 +131,12 @@ $("#search-button").on("click", function (event) {
     }).then(function (response) {
         console.log(response);
     });
+
+
+
+
+
+
 
 
 
