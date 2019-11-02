@@ -29,7 +29,7 @@ $.ajax({
 }).then(function (responce) {
     console.log(responce);
     for (var i = 0; i < 3; i++) {
-
+        console.log("yeehaw")
         // Then dynamicaly generating buttons for each movie in the array
         // Creates a button
         var x = $("<button>");
