@@ -26,8 +26,8 @@ var inputMovie = "";
 $.ajax({
     url: "https://cors-anywhere.herokuapp.com/https://tastedive.com/api/similar?q=space+jam&k=348815-07musicA-UK0GNRNO",
     method: "GET"
-}).then(function (responce) {
-    console.log(responce);
+}).then(function (response) {
+    console.log(response);
     for (var i = 0; i < 3; i++) {
         console.log("yeehaw")
         // Then dynamicaly generating buttons for each movie in the array
@@ -36,9 +36,9 @@ $.ajax({
         // Adds a class of movie-btn to the button
         x.addClass("movie-btn");
         // Adding a data-attribute
-        x.attr("data-name", responce.Similar.Results[i].Name);
+        x.attr("data-name", response.Similar.Results[i].Name);
         // Button text
-        x.text([responce.Similar.Results[i].Name]);
+        x.text([response.Similar.Results[i].Name]);
         // Appending the button to the page
         $("#space_jam-similar").append(x);
     }
@@ -47,10 +47,14 @@ $.ajax({
 // This is for the nyt movie review api
 
 $.ajax({
-    url: "https://api.nytimes.com/svc/movies/v2/reviews/search.json?query=lebowski&api-key=zZrGvMTHO8rZYgmqMozo6nBXMVSdTemM",
+    url: "https://api.nytimes.com/svc/movies/v2/reviews/search.json?query=space+jam&api-key=zZrGvMTHO8rZYgmqMozo6nBXMVSdTemM",
     method: "GET"
-}).then(function (responce) {
-    console.log(responce);
+}).then(function (response) {
+    console.log(response);
+    var x = $("<a></a>");
+    x.text([response.results[0].link.suggested_link_text]);
+    x.attr("href", response.results[0].link.url);
+    $("#space_jam-review").append(x);
 });
 
 // // This is for omdb
@@ -59,26 +63,11 @@ $.ajax({
     url: "https://www.omdbapi.com/?t=space+jam&y=&plot=short&apikey=trilogy",
     method: "GET"
 }).then(function (response) {
-    // Retrieve data needed from "response".
-    movie.title = response.Title;
-    movie.poster = response.Poster;
-    movie.year = response.Year;
-    movie.director = response.Director;
-    movie.rating = response.Rated;
-    movie.metaSource = response.Ratings[1].Source;
-    movie.metaRating = response.Ratings[1].Value;
-    movie.stars = response.Actors;
-
-    // for testing only
     console.log(response);
-    console.log("Title: " + movie.title);
-    console.log("Poster:  " + movie.poster);
-    console.log("Year:  " + movie.year);
-    console.log("Director: " + movie.director);
-    console.log("Rating: " + movie.rating);
-    console.log("Rating source:  " + movie.metaSource);
-    console.log("Rating (meta): " + movie.metaRating);
-    console.log("Stars:  " + movie.stars);
+    var x = $("<p></p>");
+    console.log(response.Plot);
+    x.text([response.Plot]);
+    $("#space_jam-plot").append(x);
 });
 
 $("#search-button").on("click", function (event) {
@@ -90,22 +79,22 @@ $("#search-button").on("click", function (event) {
     $.ajax({
         url: `https://www.omdbapi.com/?t=${inputMovie}&y=&plot=short&apikey=trilogy`,
         method: "GET"
-    }).then(function (responce) {
-        console.log(responce);
+    }).then(function (response) {
+        console.log(response);
     });
 
     $.ajax({
         url: `https://api.nytimes.com/svc/movies/v2/reviews/search.json?query=${inputMovie}&api-key=zZrGvMTHO8rZYgmqMozo6nBXMVSdTemM`, //nyt api request
         method: "GET"
-    }).then(function (responce) {
-        console.log(responce);
+    }).then(function (response) {
+        console.log(response);
     });
 
     $.ajax({
         url: `https://cors-anywhere.herokuapp.com/https://tastedive.com/api/similar?q=${inputMovie}&k=348815-07musicA-UK0GNRNO`, // Taste dive api request
         method: "GET"
-    }).then(function (responce) {
-        console.log(responce);
+    }).then(function (response) {
+        console.log(response);
     });
 
     var newCard = $(".collapsible");
@@ -116,7 +105,7 @@ $("#search-button").on("click", function (event) {
     var posterEl = $('<div class="col s8 m8 l8 posterEl"></div>');
     var textYearDirRat = `Year:  ${movie.year};  Director:  ${movie.director};  Rating:  ${movie.rating}`
     var yearEtcEl = $(`<div class="col s4 m4 l4 yearEtcEl">${textYearDirRat}</div>`)
-    
+
     // add the poster to the new row that will be in the body
     // actual poster data still needs to be set
     $(newRow).append(posterEl);
