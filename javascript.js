@@ -5,7 +5,7 @@ var movie = {
     year: "",
     director: "",
     rating: "",
-    similarMovies: [],
+    
     review: "",
     metaSource: "",
     metaRating: ""
@@ -69,20 +69,22 @@ $.ajax({
 
 $("#search-button").on("click", function(event){
     event.preventDefault();
-    alert("hello");
     var newCard = $('<ul class="collapsible cardEl"></ul>');
     var liEl = $('<li></li>');
-    var titleEl = $('<div class="collapsible-header titleEl"></div>');
+    var titleEl = $('<div class="collapsible-header titleEl"><h1></h1></div>');
     var listBody = $('<div class="collapsible-body">');
     var newRow = $('<div class="row"></div>');
     var posterEl = $('<div class="col s8 posterEl"></div>');
-    var yearEtcEl= $('<div class="col s4 yearEtcEl"></div>')
+    var yearEtcEl= $('<div class="col s4 yearEtcEl"></div>');
 
-    $(document.body).append(newCard);
+    $("#card-container").append(newCard);
     $(newCard).append(liEl)
     $(liEl).append(titleEl);
-    $(titleEl).append(listBody);
+    $(liEl).append(listBody);
     $(listBody).append(newRow);
     $(newRow).append(posterEl);
     $(newRow).append(yearEtcEl);
+
+    $(".collapsible").collapsible();
 });
+
