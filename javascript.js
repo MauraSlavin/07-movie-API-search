@@ -26,7 +26,7 @@ var inputMovie = "";
 // Alice: added instance var from Materialize
 var elems = document.querySelector('.collapsible');
 var instances = M.Collapsible.init(elems);
-instances.open();
+instances.open(); // intial movie dropdown opens
 
 
 $.ajax({
@@ -89,6 +89,8 @@ $.ajax({
 
 $("#search-button").on("click", function (event) {
     event.preventDefault();
+
+    instances.close(); // initial open movie closes 
 
     inputMovie = $(".movie-input").val();
 
