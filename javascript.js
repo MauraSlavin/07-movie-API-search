@@ -83,14 +83,9 @@ $.ajax({
 
 $("#search-button").on("click", function(event){
     event.preventDefault();
-    alert("hello");
 
-    // Maura:  This adds the elements in the new ul, but doesn't display it on the page, yet
-
-    // Maura: Are we adding a whole new list every time someone searches a movie?
-    //      I thought we were adding an li?
-    var newCard = $('<ul class="collapsible cardEl"></ul>');
-    var liEl = $('<li class="active"></li>');  //Maura added active to display on the page
+    var newCard = $(".collapsible");
+    var liEl = $('<li></li>');  //New li for each movie//
     var titleEl = $(`<div class="collapsible-header titleEl"><i class="material-icons">arrow_drop_down_circle</i>${movie.title}</div>`);
     var listBody = $('<div class="collapsible-body">');
     var newRow = $('<div class="row"></div>');
@@ -109,12 +104,8 @@ $("#search-button").on("click", function(event){
     $(listBody).append(newRow);
 
     // put header & body on the li before appending to the ul
-    $(liEl).append(titleEl);  // adds a header to the li
+    $(liEl).append(titleEl); // adds a header to the li
     $(liEl).append(listBody);  // adds a body to the li after the header
-    $(newCard).append(liEl);  // newCard is ul; this adds an li to the ul
-
-
-    // adds new ul at the end of the document
-    $(document.body).append(newCard);  // Maura: do this last?  Build card first, then append it?
-    $(".collapsible").collapsible();
+    $(newCard).prepend(liEl)
+    $("#card-container").prepend(newCard);
 });
