@@ -41,7 +41,7 @@ $.ajax({
         x.text([responce.Similar.Results[i].Name]);
         // Appending the button to the page
         $("#space_jam-similar").append(x);
-      }
+    }
 });
 
 // This is for the nyt movie review api
@@ -49,7 +49,7 @@ $.ajax({
 $.ajax({
     url: "https://api.nytimes.com/svc/movies/v2/reviews/search.json?query=lebowski&api-key=zZrGvMTHO8rZYgmqMozo6nBXMVSdTemM",
     method: "GET"
-}).then(function(responce){
+}).then(function (responce) {
     console.log(responce);
 });
 
@@ -81,17 +81,30 @@ $.ajax({
     console.log("Stars:  " + movie.stars);
 });
 
-$("#search-button").on("click", function(event){
+$("#search-button").on("click", function (event) {
     event.preventDefault();
     inputMovie = $(".movie-input").val();
 
     $.ajax({
         url: `https://www.omdbapi.com/?t=${inputMovie}&y=&plot=short&apikey=trilogy`,
         method: "GET"
-    }).then(function(responce){
+    }).then(function (responce) {
         console.log(responce);
     });
-    
+
+    $.ajax({
+        url: `https://api.nytimes.com/svc/movies/v2/reviews/search.json?query=${inputMovie}&api-key=zZrGvMTHO8rZYgmqMozo6nBXMVSdTemM`, //nyt api request
+        method: "GET"
+    }).then(function (responce) {
+        console.log(responce);
+    });
+
+    $.ajax({
+        url: `https://cors-anywhere.herokuapp.com/https://tastedive.com/api/similar?q=${inputMovie}&k=348815-07musicA-UK0GNRNO`, // Taste dive api request
+        method: "GET"
+    }).then(function (responce) {
+        console.log(responce);
+    });
 
     // Maura:  This adds the elements in the new ul, but doesn't display it on the page, yet
 
@@ -104,12 +117,12 @@ $("#search-button").on("click", function(event){
     var newRow = $('<div class="row"></div>');
     var posterEl = $('<div class="col s8 posterEl"></div>');
     var textYearDirRat = `Year:  ${movie.year};  Director:  ${movie.director};  Rating:  ${movie.rating}`
-    var yearEtcEl= $(`<div class="col s4 yearEtcEl">${textYearDirRat}</div>`)
-    
+    var yearEtcEl = $(`<div class="col s4 yearEtcEl">${textYearDirRat}</div>`)
+
     // add the poster to the new row that will be in the body
     // actual poster data still needs to be set
     $(newRow).append(posterEl);
-    
+
     // add Year, Director, Rating to newrow block
     $(newRow).append(yearEtcEl);
 
