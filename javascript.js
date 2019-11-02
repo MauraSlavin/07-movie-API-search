@@ -24,9 +24,9 @@ var inputMovie = "";
 // The cors-anywhere-heroku thing is a work-around for cors errors
 
 // Alice: added instance var from Materialize
-var elems = document.querySelector('.collapsible');
-var instances = M.Collapsible.init(elems);
-instances.open(); // intial movie dropdown opens
+var elems = document.querySelector('.first-movie'); // grabbing initial movie dropdown
+var firstCard = M.Collapsible.init(elems);
+firstCard.open(); // intial movie dropdown opens
 
 
 $.ajax({
@@ -90,7 +90,7 @@ $.ajax({
 $("#search-button").on("click", function (event) {
     event.preventDefault();
 
-    instances.close(); // initial open movie closes 
+    firstCard.close(); // initial open movie closes 
 
     inputMovie = $(".movie-input").val();
 
@@ -140,4 +140,8 @@ $("#search-button").on("click", function (event) {
     $(liEl).append(listBody);  // adds a body to the li after the header
     $(newCard).prepend(liEl)
     $("#card-container").prepend(newCard);
+
+    var elem = document.querySelector('.collapsible'); // grabbing new movie dropdown
+    var newMovie = M.Collapsible.init(elem);
+    newMovie.open(); // new movie dropdown opens 
 });
