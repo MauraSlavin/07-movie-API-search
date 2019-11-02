@@ -1,15 +1,14 @@
-// one of these for each movie searched (and first movie loaded)
-var movie = {
-    title: "",
-    poster: "",
-    year: "",
-    director: "",
-    rating: "",
-    similarMovies: [],
-    review: "",
-    metaSource: "",
-    metaRating: ""
-};
+// data needed for each movie
+var title = "";
+var poster = "";
+var year = "";
+var director = "";
+var rating = "";
+var similarMovies = [];
+var review = "";
+var metaSource = "";
+var metaRating = "";
+
 
 // array of "movie" objects, to hold all the movies searched (including default) & related data
 var movies = [];
@@ -26,8 +25,8 @@ var inputMovie = "";
 $.ajax({
     url: "https://cors-anywhere.herokuapp.com/https://tastedive.com/api/similar?q=space+jam&k=348815-07musicA-UK0GNRNO",
     method: "GET"
-}).then(function (responce) {
-    console.log(responce);
+}).then(function (response) {
+    console.log(response);
     for (var i = 0; i < 3; i++) {
 
         // Then dynamicaly generating buttons for each movie in the array
@@ -36,9 +35,9 @@ $.ajax({
         // Adds a class of movie-btn to the button
         x.addClass("movie-btn");
         // Adding a data-attribute
-        x.attr("data-name", responce.Similar.Results[i].Name);
+        x.attr("data-name", response.Similar.Results[i].Name);
         // Button text
-        x.text([responce.Similar.Results[i].Name]);
+        x.text([response.Similar.Results[i].Name]);
         // Appending the button to the page
         $("#space_jam-similar").append(x);
     }
@@ -49,8 +48,8 @@ $.ajax({
 $.ajax({
     url: "https://api.nytimes.com/svc/movies/v2/reviews/search.json?query=lebowski&api-key=zZrGvMTHO8rZYgmqMozo6nBXMVSdTemM",
     method: "GET"
-}).then(function (responce) {
-    console.log(responce);
+}).then(function (response) {
+    console.log(response);
 });
 
 // // This is for omdb
@@ -59,78 +58,74 @@ $.ajax({
     url: "https://www.omdbapi.com/?t=space+jam&y=&plot=short&apikey=trilogy",
     method: "GET"
 }).then(function (response) {
-    // Retrieve data needed from "response".
-    title = response.Title;
-    poster = response.Poster;
-    year = response.Year;
-    director = response.Director;
-    rating = response.Rated;
-    metaSource = response.Ratings[1].Source;
-    metaRating = response.Ratings[1].Value;
-    stars = response.Actors;
 
-    // for testing only
-    console.log(response);
-    console.log("Title: " + title);
-    console.log("Poster:  " + poster);
-    console.log("Year:  " + year);
-    console.log("Director: " + director);
-    console.log("Rating: " + rating);
-    console.log("Rating source:  " + metaSource);
-    console.log("Rating (meta): " + metaRating);
-    console.log("Stars:  " + stars);
+    // if default movie would be changed on the page here.  
+    // right now (11/2) it's hard-coded in the HTML
+
 });
 
 $("#search-button").on("click", function (event) {
     event.preventDefault();
 
-    inputMovie = $(".movie-input").val();
+    inputMovie = $(".movie-input").val();  // get the movie the user entered
 
+    // get information on the movie the user entered
     $.ajax({
         url: `https://www.omdbapi.com/?t=${inputMovie}&y=&plot=short&apikey=trilogy`,
         method: "GET"
-    }).then(function (responce) {
-        console.log(responce);
+    }).then(function (response) {
+        console.log(response);
+
+        // build new card for movie searched
+        var newCard = $(".collapsible");
+        var liEl = $('<li></li>');  //New li for each movie//
+        // card header is the title
+        var titleEl = $(`<div class="collapsible-header titleEl"><i class="material-icons">arrow_drop_down_circle</i>${response.Title}</div>`);
+        // card body has the rest of the info
+        var listBody = $('<div class="collapsible-body">');
+        // new row has the poster, year, director & MPAA rating
+        var newRow = $('<div class="row"></div>');
+
+// put the poster, year, director, rating in the respective new elements
+        var posterEl = $(`<div class="col s8 m8 l8 posterEl"><img src=${response.Poster} alt="poster image"></div>`);
+        var yearEl = $(`<div class="center-align"><p>Year:  ${response.Year}</p></div>`);
+        var dirEl = $(`<div class="center-align"><p>Director:  ${response.Director}</p></div>`);
+        var ratgEl = $(`<div class="center-align"><p>MPAA Rating:  ${response.Rated}</p></div>`);
+        var yearEtcEl = $(`<div class="col s4 m4 l4 yearEtcEl"></div>`)
+        
+        // add the year, director, rating to the div to the right of the poster
+        $(yearEtcEl).append(yearEl).append(dirEl).append(ratgEl);
+
+
+        // add the poster to the new row that will be in the body
+        // actual poster data still needs to be set
+        $(newRow).append(posterEl);
+
+        // add Year, Director, Rating to newrow block
+        $(newRow).append(yearEtcEl);
+
+        // add newrow to the body of the card
+        $(listBody).append(newRow);
+
+        // put header & body on the li before appending to the ul
+        $(liEl).append(titleEl); // adds a header to the li
+        $(liEl).append(listBody);  // adds a body to the li after the header
+        $(newCard).prepend(liEl)
+        $("#card-container").prepend(newCard);
     });
 
     $.ajax({
         url: `https://api.nytimes.com/svc/movies/v2/reviews/search.json?query=${inputMovie}&api-key=zZrGvMTHO8rZYgmqMozo6nBXMVSdTemM`, //nyt api request
         method: "GET"
-    }).then(function (responce) {
-        console.log(responce);
+    }).then(function (response) {
+        console.log(response);
     });
 
     $.ajax({
         url: `https://cors-anywhere.herokuapp.com/https://tastedive.com/api/similar?q=${inputMovie}&k=348815-07musicA-UK0GNRNO`, // Taste dive api request
         method: "GET"
-    }).then(function (responce) {
-        console.log(responce);
+    }).then(function (response) {
+        console.log(response);
     });
 
-    var newCard = $(".collapsible");
-    var liEl = $('<li></li>');  //New li for each movie//
-    var titleEl = $(`<div class="collapsible-header titleEl"><i class="material-icons">arrow_drop_down_circle</i>${title}</div>`);
-    var listBody = $('<div class="collapsible-body">');
-    var newRow = $('<div class="row"></div>');
-
-    var posterEl = $(`<div class="col s8 m8 l8 posterEl"><img src=${poster} alt="poster image"></div>`);
-    var textYearDirRat = `Year:  ${year};  Director:  ${director};  Rating:  ${rating}`
-    var yearEtcEl= $(`<div class="col s4 m4 l4 yearEtcEl">${textYearDirRat}</div>`)
-
-    
-    // add the poster to the new row that will be in the body
-    // actual poster data still needs to be set
-    $(newRow).append(posterEl);
-
-    // add Year, Director, Rating to newrow block
-    $(newRow).append(yearEtcEl);
-
-    // add newrow to the body
-    $(listBody).append(newRow);
-
-    // put header & body on the li before appending to the ul
-    $(liEl).append(titleEl); // adds a header to the li
-    $(liEl).append(listBody);  // adds a body to the li after the header
-    $(newCard).prepend(liEl)
-    $("#card-container").prepend(newCard);
 });
