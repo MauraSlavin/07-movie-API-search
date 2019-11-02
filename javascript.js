@@ -60,25 +60,25 @@ $.ajax({
     method: "GET"
 }).then(function (response) {
     // Retrieve data needed from "response".
-    movie.title = response.Title;
-    movie.poster = response.Poster;
-    movie.year = response.Year;
-    movie.director = response.Director;
-    movie.rating = response.Rated;
-    movie.metaSource = response.Ratings[1].Source;
-    movie.metaRating = response.Ratings[1].Value;
-    movie.stars = response.Actors;
+    title = response.Title;
+    poster = response.Poster;
+    year = response.Year;
+    director = response.Director;
+    rating = response.Rated;
+    metaSource = response.Ratings[1].Source;
+    metaRating = response.Ratings[1].Value;
+    stars = response.Actors;
 
     // for testing only
     console.log(response);
-    console.log("Title: " + movie.title);
-    console.log("Poster:  " + movie.poster);
-    console.log("Year:  " + movie.year);
-    console.log("Director: " + movie.director);
-    console.log("Rating: " + movie.rating);
-    console.log("Rating source:  " + movie.metaSource);
-    console.log("Rating (meta): " + movie.metaRating);
-    console.log("Stars:  " + movie.stars);
+    console.log("Title: " + title);
+    console.log("Poster:  " + poster);
+    console.log("Year:  " + year);
+    console.log("Director: " + director);
+    console.log("Rating: " + rating);
+    console.log("Rating source:  " + metaSource);
+    console.log("Rating (meta): " + metaRating);
+    console.log("Stars:  " + stars);
 });
 
 $("#search-button").on("click", function(event){
@@ -86,7 +86,6 @@ $("#search-button").on("click", function(event){
 
     inputMovie = $(".movie-input").val();
 
-    // query to OMDB to find movie info for movie user search
     $.ajax({
         url: `https://www.omdbapi.com/?t=${inputMovie}&y=&plot=short&apikey=trilogy`,
         method: "GET"
@@ -96,12 +95,12 @@ $("#search-button").on("click", function(event){
 
     var newCard = $(".collapsible");
     var liEl = $('<li></li>');  //New li for each movie//
-    var titleEl = $(`<div class="collapsible-header titleEl"><i class="material-icons">arrow_drop_down_circle</i>${movie.title}</div>`);
+    var titleEl = $(`<div class="collapsible-header titleEl"><i class="material-icons">arrow_drop_down_circle</i>${title}</div>`);
     var listBody = $('<div class="collapsible-body">');
     var newRow = $('<div class="row"></div>');
-    var posterEl = $('<div class="col s8 m8 l8 posterEl"></div>');
-    var textYearDirRat = `Year:  ${movie.year};  Director:  ${movie.director};  Rating:  ${movie.rating}`
-    var yearEtcEl= $(`<div class="col s4 m4 l4 yearEtcEl">${textYearDirRat}</div>`)
+    var posterEl = $(`<div class="col s8 posterEl"><img src=${poster} alt="poster image"></div>`);
+    var textYearDirRat = `Year:  ${year};  Director:  ${director};  Rating:  ${rating}`
+    var yearEtcEl= $(`<div class="col s4 yearEtcEl">${textYearDirRat}</div>`)
     
     // add the poster to the new row that will be in the body
     // actual poster data still needs to be set
