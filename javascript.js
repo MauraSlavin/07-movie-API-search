@@ -34,7 +34,7 @@ $.ajax({
 }).then(function (response) {
     console.log(response);
     for (var i = 0; i < 3; i++) {
-
+        console.log("yeehaw")
         // Then dynamicaly generating buttons for each movie in the array
         // Creates a button
         var x = $("<button>");
@@ -52,10 +52,14 @@ $.ajax({
 // This is for the nyt movie review api
 
 $.ajax({
-    url: "https://api.nytimes.com/svc/movies/v2/reviews/search.json?query=lebowski&api-key=zZrGvMTHO8rZYgmqMozo6nBXMVSdTemM",
+    url: "https://api.nytimes.com/svc/movies/v2/reviews/search.json?query=space+jam&api-key=zZrGvMTHO8rZYgmqMozo6nBXMVSdTemM",
     method: "GET"
 }).then(function (response) {
     console.log(response);
+    var x = $("<a></a>");
+    x.text([response.results[0].link.suggested_link_text]);
+    x.attr("href", response.results[0].link.url);
+    $("#space_jam-review").append(x);
 });
 
 // // This is for omdb
@@ -64,10 +68,11 @@ $.ajax({
     url: "https://www.omdbapi.com/?t=space+jam&y=&plot=short&apikey=trilogy",
     method: "GET"
 }).then(function (response) {
-
-    // if default movie would be changed on the page here.  
-    // right now (11/2) it's hard-coded in the HTML
-
+    console.log(response);
+    var x = $("<p></p>");
+    console.log(response.Plot);
+    x.text([response.Plot]);
+    $("#space_jam-plot").append(x);
 });
 
 $("#search-button").on("click", function (event) {

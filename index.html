@@ -6,7 +6,7 @@
     <meta name="viewport" content="width = device-width, initial-scale = 1">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
-    <link type="text/css" rel="stylesheet" href="materialize/css/materialize.min.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="materialize/css/materialize.min.css" media="screen,projection" />
     <link rel="stylesheet" href="style.css"> <!-- our stylesheet to tweak Materialize -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
@@ -38,20 +38,21 @@
 
     <div id="card-container">
 
-      <ul class="collapsible first-movie" data-movie="Space-Jam">
+
+        <ul class="collapsible first-movie" data-movie="Space-Jam">
             <li>
                 <div class="collapsible-header"><i class="material-icons">arrow_drop_down_circle</i>Space Jam</div>
                 <div class="collapsible-body">
                     <div class="row">
                         <!-- for poster, year, director, MPAA rating -->
                         <!-- display the poster -->
-                        <div class="col s8 m8 l8">  <!-- poster -->
+                        <div class="col s8 m8 l8">
+                            <!-- poster -->
                             <!-- Maura:  to see what it should look like -->
 
 
                             <img src="https://imgc.allpostersimages.com/img/print/u-g-F4S5S30.jpg?w=900&h=900&p=0">
-                        </div>  <!-- of poster -->
-
+                        </div> <!-- of poster -->
                         <!-- display the year, director, mpaa next to the poster -->
                         <!-- each item (year, director, rating) is on its own row -->
                         <div class="col s3 m3 l3">
@@ -63,31 +64,30 @@
                                 <div class="center-align valign-wrapper">
                                     <p>Director: Whomever</p>
                                 </div>
-
                                 <div class="center-align valign-wrapper">
                                     <p>MPAA Rating: PG</p>
                                 </div>
-                            </div>  <!-- of row with year, director, rating -->
-                        </div>  <!-- small column for year, director, rating -->
-                    </div>  <!-- row with poster on the left & more details on the right -->
-                    
-                    <div class="row">
+                            </div> <!-- of row with year, director, rating -->
+                        </div> <!-- small column for year, director, rating -->
+                    </div> <!-- row with poster on the left & more details on the right -->
+                    <div class="row center-align s12 m12 l12" id="space_jam-plot">
+                        <!-- This is where the plot will go -->
+                    </div>
+                    <div class="row center-align s12 m12 l12" id="space_jam-review">
                         <!-- This is where the review will go -->
                     </div>
-                    <div class="row" id="space_jam-similar">
+                    <div class="row center-align s12 m12 l12" id="space_jam-similar">
                         <!-- This is where the similiar buttons will go -->
                     </div>
                 </div>
 
-
-
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js">
-    </script>
-    <script type="text/javascript" src="materialize/js/materialize.min.js"></script>
-    <script type="text/javascript" src="javascript.js"></script>
-
+                <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+                    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous">
+                </script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js">
+                </script>
+                <script type="text/javascript" src="materialize/js/materialize.min.js"></script>
+                <script type="text/javascript" src="javascript.js"></script>
 </body>
 
 </html>
