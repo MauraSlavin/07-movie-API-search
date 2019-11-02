@@ -6,6 +6,7 @@
     <meta name="viewport" content="width = device-width, initial-scale = 1">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
+    <link type="text/css" rel="stylesheet" href="materialize/css/materialize.min.css"  media="screen,projection"/>
     <link rel="stylesheet" href="style.css"> <!-- our stylesheet to tweak Materialize -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
@@ -36,7 +37,8 @@
     </div>
 
     <div id="card-container">
-        <ul class="collapsible" data-movie="Space-Jam">
+
+      <ul class="collapsible first-movie" data-movie="Space-Jam">
             <li>
                 <div class="collapsible-header"><i class="material-icons">arrow_drop_down_circle</i>Space Jam</div>
                 <div class="collapsible-body">
@@ -45,6 +47,7 @@
                         <!-- display the poster -->
                         <div class="col s8 m8 l8">  <!-- poster -->
                             <!-- Maura:  to see what it should look like -->
+
 
                             <img src="https://imgc.allpostersimages.com/img/print/u-g-F4S5S30.jpg?w=900&h=900&p=0">
                         </div>  <!-- of poster -->
@@ -76,11 +79,15 @@
                     </div>
                 </div>
 
-                <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-                    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js">
-                </script>
-                <script type="text/javascript" src="javascript.js"></script>
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js">
+    </script>
+    <script type="text/javascript" src="materialize/js/materialize.min.js"></script>
+    <script type="text/javascript" src="javascript.js"></script>
+
 </body>
 
 </html>

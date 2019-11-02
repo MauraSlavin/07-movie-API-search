@@ -22,6 +22,12 @@ var inputMovie = "";
 // ajax to the tastedive api
 // The cors-anywhere-heroku thing is a work-around for cors errors
 
+// Alice: added instance var from Materialize
+var elems = document.querySelector('.first-movie'); // grabbing initial movie dropdown
+var firstCard = M.Collapsible.init(elems);
+firstCard.open(); // intial movie dropdown opens
+
+
 $.ajax({
     url: "https://cors-anywhere.herokuapp.com/https://tastedive.com/api/similar?q=space+jam&k=348815-07musicA-UK0GNRNO",
     method: "GET"
@@ -67,7 +73,11 @@ $.ajax({
 $("#search-button").on("click", function (event) {
     event.preventDefault();
 
-    inputMovie = $(".movie-input").val();  // get the movie the user entered
+
+    firstCard.close(); // initial open movie closes 
+
+    inputMovie = $(".movie-input").val();   // get the movie the user entered
+
 
     // get information on the movie the user entered
     $.ajax({
@@ -127,5 +137,37 @@ $("#search-button").on("click", function (event) {
     }).then(function (response) {
         console.log(response);
     });
+
+
+    var newCard = $(".collapsible");
+    var liEl = $('<li></li>');  //New li for each movie//
+    var titleEl = $(`<div class="collapsible-header titleEl"><i class="material-icons">arrow_drop_down_circle</i>${title}</div>`);
+    var listBody = $('<div class="collapsible-body">');
+    var newRow = $('<div class="row"></div>');
+
+    var posterEl = $(`<div class="col s8 m8 l8 posterEl"><img src=${poster} alt="poster image"></div>`);
+    var textYearDirRat = `Year:  ${year};  Director:  ${director};  Rating:  ${rating}`
+    var yearEtcEl= $(`<div class="col s4 m4 l4 yearEtcEl">${textYearDirRat}</div>`)
+
+    
+    // add the poster to the new row that will be in the body
+    // actual poster data still needs to be set
+    $(newRow).append(posterEl);
+
+    // add Year, Director, Rating to newrow block
+    $(newRow).append(yearEtcEl);
+
+    // add newrow to the body
+    $(listBody).append(newRow);
+
+    // put header & body on the li before appending to the ul
+    $(liEl).append(titleEl); // adds a header to the li
+    $(liEl).append(listBody);  // adds a body to the li after the header
+    $(newCard).prepend(liEl)
+    $("#card-container").prepend(newCard);
+
+    var elem = document.querySelector('.collapsible'); // grabbing new movie dropdown
+    var newMovie = M.Collapsible.init(elem);
+    newMovie.open(); // new movie dropdown opens 
 
 });
