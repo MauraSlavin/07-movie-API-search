@@ -22,91 +22,95 @@
         </div>
     </nav>
 
+    <!-- for background -->
+    <div class="jumbotron jumbotron-fluid bg-transparent">
 
-    <!--added search input with placeholder-->
-    <div>
-        <div class="row">
-            <form class="col s12 m12 l12">
-                <div class="row">
-                    <div class="input-field center col s6">
-                        <i class="material-icons prefix" id="search-button">search</i>
-                        <input id="icon_prefix" type="text" class="validate movie-input">
-                        <label for="icon_prefix">Search for a movie...</label>
-                    </div> <!-- end of input field div -->
-                </div> <!-- end of row with input field -->
-            </form>
-        </div> <!-- end of row that contains the input field -->
-
-        <!-- add progress bar -->
-        <div class='container'>
+        <!--added search input with placeholder-->
+        <div>
             <div class="row">
-                <div class="col s12 m3 l3"></div>
-                <div class="col s12 m6 l6">
-                    <div class="progressDiv1">
-                        <div class="progressDiv2"></div>
+                <form class="col s12 m12 l12">
+                    <div class="row">
+                        <div class="input-field center col s6">
+                            <i class="material-icons prefix" id="search-button">search</i>
+                            <input id="icon_prefix" type="text" class="validate movie-input">
+                            <label for="icon_prefix">Search for a movie...</label>
+                        </div> <!-- end of input field div -->
+                    </div> <!-- end of row with input field -->
+                </form>
+            </div> <!-- end of row that contains the input field -->
+
+            <!-- add progress bar -->
+            <div class='container'>
+                <div class="row">
+                    <div class="col s12 m3 l3"></div>
+                    <div class="col s12 m6 l6">
+                        <div class="progressDiv1">
+                            <div class="progressDiv2"></div>
+                        </div>
                     </div>
+                    <div class="col s12 m3 l3"></div>
                 </div>
-                <div class="col s12 m3 l3"></div>
-            </div>
-        </div> <!-- end of progress line -->
+            </div> <!-- end of progress line -->
 
 
-        <!-- Holds all information for the default movie -->
-        <div id="card-container">
+            <!-- Holds all information for the default movie -->
+            <div id="card-container">
 
-            <!-- default movie is the first item in a ul -->
-            <ul class="collapsible first-movie" data-movie="Space-Jam">
+                <!-- default movie is the first item in a ul -->
+                <ul class="collapsible first-movie" data-movie="Space-Jam">
 
-                <!-- Each li is a card.  The header of the card is the title of the movie; the body is all the movie info -->
-                <li>
-                    <!-- each movie is it's own li.  Default movie is the first -->
+                    <!-- Each li is a card.  The header of the card is the title of the movie; the body is all the movie info -->
+                    <li>
+                        <!-- each movie is it's own li.  Default movie is the first -->
 
-                    <div class="collapsible-header"><i class="material-icons">arrow_drop_down_circle</i>Space Jam
-                    </div> <!-- end of title with drop down (expand) arrow -->
+                        <div class="collapsible-header"><i class="material-icons">arrow_drop_down_circle</i>Space Jam
+                        </div> <!-- end of title with drop down (expand) arrow -->
 
-                    <div class="collapsible-body">
-                        <!-- all the data about the movie -->
+                        <div class="collapsible-body">
+                            <!-- all the data about the movie -->
 
 
-                        <div class="row">
-                            <!-- for poster, year, director, MPAA rating -->
+                            <div class="row">
+                                <!-- for poster, year, director, MPAA rating -->
 
-                            <div class="col s8 m8 l8">
-                                <!-- poster -->
-                                <img src="https://imgc.allpostersimages.com/img/print/u-g-F4S5S30.jpg?w=900&h=900&p=0">
-                            </div> <!-- of poster -->
+                                <div class="col s8 m8 l8">
+                                    <!-- poster -->
+                                    <img
+                                        src="https://imgc.allpostersimages.com/img/print/u-g-F4S5S30.jpg?w=900&h=900&p=0">
+                                </div> <!-- of poster -->
 
-                            <!-- display the year, director, mpaa next to the poster -->
-                            <!-- each item (year, director, rating) is on its own row -->
-                            <div class="col s4 m4 l4">
-                                <ul class="row">
-                                    <!--  list with year, director, MPAA rating, stars -->
-                                    <li class="collection-item movie-det-li">Year: 1984</li>
-                                    <li class="collection-item movie-det-li">Director: Whomever</li>
-                                    <li class="collection-item movie-det-li">MPAA Rating: PG</li>
-                                    <li class="collection-item movie-det-li">Stars: Bugs Bunny, Michael Jordon</li>
-                                </ul> <!-- end of list of movie details beside poster -->
-                            </div> <!-- small column for year, director, rating -->
+                                <!-- display the year, director, mpaa next to the poster -->
+                                <!-- each item (year, director, rating) is on its own row -->
+                                <div class="col s4 m4 l4">
+                                    <ul class="row">
+                                        <!--  list with year, director, MPAA rating, stars -->
+                                        <li class="collection-item movie-det-li">Year: 1984</li>
+                                        <li class="collection-item movie-det-li">Director: Whomever</li>
+                                        <li class="collection-item movie-det-li">MPAA Rating: PG</li>
+                                        <li class="collection-item movie-det-li">Stars: Bugs Bunny, Michael Jordon</li>
+                                    </ul> <!-- end of list of movie details beside poster -->
+                                </div> <!-- small column for year, director, rating -->
 
-                        </div> <!-- end of row with poster and other details to the right -->
+                            </div> <!-- end of row with poster and other details to the right -->
 
-                        <div class="row center-align s12 m12 l12" id="space_jam-plot">
-                            <!-- This is where the plot will go -->
-                        </div>
+                            <div class="row center-align s12 m12 l12" id="space_jam-plot">
+                                <!-- This is where the plot will go -->
+                            </div>
 
-                        <div class="row center-align s12 m12 l12" id="space_jam-review">
-                            <!-- This is where the review will go -->
-                        </div>
+                            <div class="row center-align s12 m12 l12" id="space_jam-review">
+                                <!-- This is where the review will go -->
+                            </div>
 
-                        <div class="row center-align s12 m12 l12" id="space_jam-similar">
-                            <!-- This is where the similiar buttons will go -->
-                        </div>
+                            <div class="row center-align s12 m12 l12" id="space_jam-similar">
+                                <!-- This is where the similiar buttons will go -->
+                            </div>
 
-                    </div> <!-- end of collapsible body with all movie details (except header) in it -->
-                </li> <!-- end of li for this movie -->
-            </ul> <!-- end of unorder list -->
-        </div> <!-- end of div of collapsible body of card with all movie details  -->
-    </div> <!-- of container -->
+                        </div> <!-- end of collapsible body with all movie details (except header) in it -->
+                    </li> <!-- end of li for this movie -->
+                </ul> <!-- end of unorder list -->
+            </div> <!-- end of div of collapsible body of card with all movie details  -->
+        </div> <!-- of container -->
+    </div> <!-- of jumbotron div -->
 
     <!-- sticky footer image -->
     <footer class="page-footer s12 m12 l12">
