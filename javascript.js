@@ -73,7 +73,11 @@ $("#search-button").on("click", function (event) {
     firstCard.close(); // initial open movie closes 
     inputMovie = $(".movie-input").val();   // get the movie the user entered
 
-
+    // Turn on progress bar
+    $(".container").css("display", "block");
+    $(".progressDiv1").addClass("progress");
+    $(".progressDiv2").addClass("indeterminate");
+    
     // get information from OMDB on the movie the user entered; need this first
     $.ajax({
         url: `https://www.omdbapi.com/?t=${inputMovie}&y=&plot=short&apikey=trilogy`,
@@ -82,7 +86,7 @@ $("#search-button").on("click", function (event) {
         console.log("OMDB:");
         console.log(responseOMDB);
         console.log(" "); // space between objects for clarity
-
+        
         // get the TasteDive started since it can take a while
         //    this is a search for list of similar movies to the one searched.
         // this has to be in the .then for the other searches, so that the elements 
@@ -96,7 +100,7 @@ $("#search-button").on("click", function (event) {
             console.log("TasteDive:");
             console.log(responseTD);
             console.log(" "); // space between objects for clarity
-
+            
             $.ajax({
                 url: `https://api.nytimes.com/svc/movies/v2/reviews/search.json?query=${inputMovie}&api-key=zZrGvMTHO8rZYgmqMozo6nBXMVSdTemM`, //nyt api request
                 method: "GET"
@@ -105,6 +109,13 @@ $("#search-button").on("click", function (event) {
                 console.log(responseNYT);
                 console.log("");  // leave a space so it's clear what the object in the console is
                 console.log("Now have all data needed from APIs");
+                
+                // turn off progress bar
+                $(".progressDiv1").removeClass("progress");
+                $(".progressDiv2").removeClass("indeterminate");
+                $(".container").css("display", "none");
+
+
 
                 // build new card for movie searched
                 var newCard = $(".collapsible");
