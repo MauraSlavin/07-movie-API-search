@@ -1,16 +1,38 @@
+/* for background */
+* {
+    box-sizing: border-box;
+}
+
+/* fill background with image */
+html, body {
+    /*  from https://wallpaperplay.com/board/filmmaking-wallpapers  */
+    background: url(background.png) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
 body {
-    color: #ee6e73;                  /* text color where not otherwise specified */
-    background-color:  #fffbd3;      /* background color, where not otherwise specified */
+    /* text color where not otherwise specified */
+    color: black;
+    /* background color, where not otherwise specified */
+    background: transparent;
     /* for sticky footer */
     display: flex;
     /* for sticky footer */
     min-height: 100vh;
     /* for sticky footer */
     flex-direction: column;
-    width: 100%;                        /* no white space on the sides */
-    padding: 0;                         /* no white space on the sides */
-    margin: 0;}                         /* no white space on the sides */
+    /* no white space on the sides */
+    width: 100%;
+    /* no white space on the sides */
+    padding: 0;
+    /* no white space on the sides */
+    margin: 0;
+}
 
+/* no white space on the sides */
 main {
     /* for sticky footer */
     flex: 1 0 auto;
@@ -20,7 +42,7 @@ main {
 .container {
     margin: 0;
     width: 100%;
-    background-color: #fffbd3;
+    background: transparent;
 }
 
 /* movie information has a margin */
@@ -36,7 +58,7 @@ main {
 
 /* background color for titles */
 .collapsible-header {
-    background-color: #faf4b8;
+    background: transparent;
 }
 
 /* background color for input field (to differentiate it from space around it) */
