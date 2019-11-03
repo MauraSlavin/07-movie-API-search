@@ -96,23 +96,28 @@ $("#search-button").on("click", function (event) {
             // new row has the poster, year, director, MPAA rating, stars
             var newRow = $('<div class="row"></div>');
 
-            // put the poster, year, director, rating in the respective new elements
+            // build row for  poster, year, director, rating, & stars in the respective new elements
             var posterEl = $(`<div class="col s8 m8 l8 posterEl"><img src=${responseOMDB.Poster} alt="poster image"></div>`);
-            var yearEl = $(`<div class="movieDetail"><p>Year:  ${responseOMDB.Year}</p></div>`);
-            var dirEl = $(`<div class="movieDetail"><p>Director:  ${responseOMDB.Director}</p></div>`);
-            var ratgEl = $(`<div class="movieDetail"><p>MPAA Rating:  ${responseOMDB.Rated}</p></div>`);
-            var starsEl = $(`<div class="movieDetail"><p>Stars:  ${responseOMDB.Actors}</p></div>`);
-            var yearEtcEl = $(`<div class="col s4 m4 l4 yearEtcEl"></div>`)
+            // build new ul with li's for year, director, rating, & stars in the respective new elements
+            //     ... to go to the right of the poster
+            var yearEtcEl = $('<div class="col s4 m4 l4 yearEtcEl"></div>');  // div ROW for year, dir, rating, starts
+            var newDetailsUl = $('<ul class="row"></ul>');          // UL for year, dir, rating, stars
+            var yearLiEl = $(`<li class="collection-item movie-det-li">Year:  ${responseOMDB.Year}</li>`);  // year
+            var dirLiEl = $(`<li class="collection-item movie-det-li">Director:  ${responseOMDB.Director}</li>`);  // director
+            var ratgLiEl = $(`<li class="collection-item movie-det-li">MPAA Rating:  ${responseOMDB.Rated}</li>`);  // rating
+            var starsLiEl = $(`<li class="collection-item movie-det-li">Stars:  ${responseOMDB.Actors}</li>`);  // stars
 
-            // add the year, director, rating to the div to the right of the poster
-            $(yearEtcEl).append(yearEl).append(dirEl).append(ratgEl).append(starsEl);
+            // add the year, director, rating, & stars to the ul to the right of the poster
+            $(newDetailsUl).append(yearLiEl).append(dirLiEl).append(ratgLiEl).append(starsLiEl);
+            // then add the ul to the small column div (to go to the right of the poster)
+            $(yearEtcEl).append(newDetailsUl);
 
 
             // add the poster to the new row that will be in the body
             // actual poster data still needs to be set
             $(newRow).append(posterEl);
 
-            // add Year, Director, Rating to newrow block
+            // add Year, Director, Rating, Stars to newrow block
             $(newRow).append(yearEtcEl);
 
             // add newrow to the body of the card
