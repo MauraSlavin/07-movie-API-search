@@ -1,5 +1,49 @@
 body {
     color: #ee6e73;
+    background-color:  #fffbd3;
+    /* for sticky footer */
+    display: flex;
+    /* for sticky footer */
+    min-height: 100vh;
+    /* for sticky footer */
+    flex-direction: column;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+main {
+    /* for sticky footer */
+    flex: 1 0 auto;
+}
+
+/* make header and footer extend full width of the screen */
+.container {
+    margin: 0;
+    width: 100%;
+    background-color: #fffbd3;
+}
+
+/* movie information has a margin */
+.card-container {
+    margin: auto;
+}
+
+.nav-wrapper {
+    /* https://www.pinterest.com/pin/700732023246598786/?lp=true */
+    background-image: url("curtain.png");
+}
+
+.collapsible-header {
+    background-color: #faf4b8;
+}
+
+.input-field {
+    margin: 20px;
+}
+
+.movie-input {
+    background-color: rgb(250, 236, 209) !important;
 }
 
 img {
@@ -8,4 +52,10 @@ img {
 
 .movie-det-li {
     margin-bottom: 10px;
+}
+
+footer {
+    /* https://www.sccpre.cat/show/TRihbJ_audience-clipart-theatre-audience-transparent-theatre-audience-clipart/ */
+    background-image: url("crowd.png");
+    height: 100px;
 }
