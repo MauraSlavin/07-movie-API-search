@@ -1,16 +1,15 @@
 body {
-    color: #ee6e73;
-    background-color:  #fffbd3;
+    color: #ee6e73;                  /* text color where not otherwise specified */
+    background-color:  #fffbd3;      /* background color, where not otherwise specified */
     /* for sticky footer */
     display: flex;
     /* for sticky footer */
     min-height: 100vh;
     /* for sticky footer */
     flex-direction: column;
-    width: 100%;
-    padding: 0;
-    margin: 0;
-}
+    width: 100%;                        /* no white space on the sides */
+    padding: 0;                         /* no white space on the sides */
+    margin: 0;}                         /* no white space on the sides */
 
 main {
     /* for sticky footer */
@@ -29,31 +28,34 @@ main {
     margin: auto;
 }
 
+/* background for header */
 .nav-wrapper {
     /* https://www.pinterest.com/pin/700732023246598786/?lp=true */
     background-image: url("curtain.png");
 }
 
+/* background color for titles */
 .collapsible-header {
     background-color: #faf4b8;
 }
 
-.input-field {
-    margin: 20px;
-}
-
+/* background color for input field (to differentiate it from space around it) */
 .movie-input {
     background-color: rgb(250, 236, 209) !important;
 }
 
+/* all images take up full width */
+/*   If this isn't here, text to the right of the poster gets pushed too far to the right */
 img {
     width: 100%;
 }
 
+/* leave a little space between year, director, etc. line items to the right of the poster */
 .movie-det-li {
     margin-bottom: 10px;
 }
 
+/* interesting sticky footer */
 footer {
     /* https://www.sccpre.cat/show/TRihbJ_audience-clipart-theatre-audience-transparent-theatre-audience-clipart/ */
     background-image: url("crowd.png");
