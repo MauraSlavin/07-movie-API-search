@@ -2,7 +2,7 @@
 var inputMovie = "";
 
 // variable for the number of simliar moview to display (so it's easy to change)
-var numSimilarMovies = 3;
+var numSimilarMovies = 5;
 
 // the tastedive api key is 348815-07musicA-UK0GNRNO
 // the omdb api key thats not trilogy is bdc51342
@@ -13,8 +13,7 @@ var numSimilarMovies = 3;
 // Alice: added instance var from Materialize
 var elems = document.querySelector('.first-movie'); // grabbing initial movie dropdown
 var firstCard = M.Collapsible.init(elems);
-firstCard.open(); // intial movie dropdown opens
-
+firstCard.open(); // intial movie dropdown open
 
 
 
@@ -98,6 +97,7 @@ $.ajax({
         $("#defaultDir").text(`Director:  ${responseOMDB.Director}`);
         $("#defaultMPAA").text(`MPAA Rating:  ${responseOMDB.Rated}`);
         $("#defaultStars").text(`Stars:  ${responseOMDB.Actors}`);
+        $("#defaultTomatoes").text(`Rotten Tomatoes Rating:  ${responseOMDB.Ratings[1].Value}`);
     });  // end of ajax call to omdb for default movie
 
 });  // end of ajax call to themoviedb for popular movie
@@ -162,9 +162,10 @@ $("#search-button").on("click", function (event) {
                 var dirLiEl = $(`<li class="collection-item movie-det-li">Director:  ${responseOMDB.Director}</li>`);  // director
                 var ratgLiEl = $(`<li class="collection-item movie-det-li">MPAA Rating:  ${responseOMDB.Rated}</li>`);  // rating
                 var starsLiEl = $(`<li class="collection-item movie-det-li">Stars:  ${responseOMDB.Actors}</li>`);  // stars
+                var tomatoesLiEl = $(`<li class="collection-item movie-det-li">Rotten Tomatoes Rating:  ${responseOMDB.Ratings[1].Value}</li>`); // rotten tomatoes
 
-                // add the year, director, rating, & stars to the ul to the right of the poster
-                $(newDetailsUl).append(yearLiEl).append(dirLiEl).append(ratgLiEl).append(starsLiEl);
+                // add the year, director, rating, stars, & rotten tomatoes to the ul to the right of the poster
+                $(newDetailsUl).append(yearLiEl).append(dirLiEl).append(ratgLiEl).append(starsLiEl).append(tomatoesLiEl);
                 // then add the ul to the small column div (to go to the right of the poster)
                 $(yearEtcEl).append(newDetailsUl);
 
