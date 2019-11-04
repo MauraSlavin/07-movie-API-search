@@ -50,10 +50,31 @@ main {
     margin: auto;
 }
 
-/* background for header */
+/* background for header; have it stretch to fill width */
 .nav-wrapper {
-    /* https://www.pinterest.com/pin/700732023246598786/?lp=true */
+    /* https://www.vectorstock.com/royalty-free-vector/silhouette-curtain-vector-1958265 */
     background-image: url("curtain.png");
+    height: 100px;
+    background-repeat: no-repeat;
+    background-size: auto;
+}
+
+/* make header text legible */
+.brand-logo {
+    color: red !important;
+    font-weight: bold;
+    font-size: 50px !important;
+    /* the next few lines puts an outline on the text */
+    text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;
+}
+
+/* center TMDB logo vertically */
+.tmdbLogo {
+    margin-top: 15px;
 }
 
 /* background color for titles */
@@ -68,7 +89,7 @@ main {
 
 /* all images take up full width */
 /*   If this isn't here, text to the right of the poster gets pushed too far to the right */
-img {
+.imgPoster, .posterEl, #defaultPoster {
     width: 100%;
 }
 

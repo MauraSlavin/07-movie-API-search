@@ -16,55 +16,92 @@ var firstCard = M.Collapsible.init(elems);
 firstCard.open(); // intial movie dropdown opens
 
 
-/* Query for similar movies for default movie */
+
+
+
+// This is for the movie db to get the default movie
+
 $.ajax({
-    url: "https://cors-anywhere.herokuapp.com/https://tastedive.com/api/similar?q=space+jam&k=348815-07musicA-UK0GNRNO",
+    url: "https://cors-anywhere.herokuapp.com/https://api.themoviedb.org/3/discover/movie?page=1&api_key=92dce995d85e4765ae2474cf460816b6",
     method: "GET"
-}).then(function (response) {
-    console.log(response);
-    for (var i = 0; i < numSimilarMovies; i++) {
-        console.log("yeehaw - query to tastedive done!!")
-        // Then dynamicaly generating buttons for each movie in the array
+}).then(function (responseTMDB) {
+    var defaultTitle = responseTMDB.results[0].original_title;
+    $("#default").append(defaultTitle);
+
+    /* Query for similar movies for default movie */
+    $.ajax({
+        url: `https://cors-anywhere.herokuapp.com/https://tastedive.com/api/similar?q=${defaultTitle}&k=348815-07musicA-UK0GNRNO`,
+        method: "GET"
+    }).then(function (responseTD) {
+
         // Creates a button
-        var x = $("<button>");
+        var buttonDivEl = $("<button>");
         // Adds a class of movie-btn to the button
-        x.addClass("movie-btn");
-        // Adding a data-attribute
-        x.attr("data-name", response.Similar.Results[i].Name);
-        // Button text
-        x.text([response.Similar.Results[i].Name]);
+        buttonDivEl.addClass("movie-btn");
+
+        // maxMovies is the number of movies we've decided to show, or the max number of similar movies returned (if less)
+        var maxMovies = numSimilarMovies;   // assume at least the number we want to show is available
+        var numResults = responseTD.Similar.Results;  // get the similar movies returned
+        var numResults = numResults.length;           // get the number of similar movies returned
+        if (numResults == 0) {                   // if no similar movies returned, set button with message saying so
+            // Adding a data-attribute  
+            buttonDivEl.attr("data-name", "no movies to suggest");
+            // Button text
+            buttonDivEl.text(["no movies to suggest"]);
+        }
+        else {                                 // at a button for each movie returned, up to the number we've decided to show
+            numResults = Math.min(length.numResults, numSimilarMovies);   // reduce numResults to a max of the number we want to show
+            for (var i = 0; i < numResults; i++) {     // add a button for each of the movies we want to show
+                // Then dynamicaly generating buttons for each movie in the array
+                // Adding a data-attribute  
+                buttonDivEl.attr("data-name", responseTD.Similar.Results[i].Name);
+                // Button text
+                buttonDivEl.text([responseTD.Similar.Results[i].Name]);
+
+            }; // end of for each similar movie
+        };
         // Appending the button to the page
-        $("#space_jam-similar").append(x);
-    }; // end of for each similar movie
-});
+        $("#default-similar").append(buttonDivEl);
 
-// This is for the nyt movie review api for the default movie
 
-$.ajax({
-    url: "https://api.nytimes.com/svc/movies/v2/reviews/search.json?query=space+jam&api-key=zZrGvMTHO8rZYgmqMozo6nBXMVSdTemM",
-    method: "GET"
-}).then(function (response) {
-    console.log(response);
-    // add an "a" element with the link to the NY Times review
-    var x = $("<a></a>");
-    x.text([response.results[0].link.suggested_link_text]);
-    x.attr("href", response.results[0].link.url);
-    x.attr("target", "_target");   // to open review in a new tab
-    $("#space_jam-review").append(x);
-});
 
-// This is for omdb for the default movie
+        // This is for the nyt movie review api for the default movie
+        $.ajax({
+            url: `https://api.nytimes.com/svc/movies/v2/reviews/search.json?query=${defaultTitle}&api-key=zZrGvMTHO8rZYgmqMozo6nBXMVSdTemM`,
+            method: "GET"
+        }).then(function (responseNYT) {
 
-$.ajax({
-    url: "https://www.omdbapi.com/?t=space+jam&y=&plot=short&apikey=trilogy",
-    method: "GET"
-}).then(function (response) {
-    console.log(response);
-    var x = $("<p></p>");
-    console.log(response.Plot);
-    x.text([response.Plot]);
-    $("#space_jam-plot").append(x);
-});
+            // add a hyperlink element with the link to the NY Times review
+            var hyperlinkEl = $("<a></a>");
+            hyperlinkEl.text([responseNYT.results[0].link.suggested_link_text]);
+            hyperlinkEl.attr("href", responseNYT.results[0].link.url);
+            hyperlinkEl.attr("target", "_target");   // to open review in a new tab
+            $("#default-review").append(hyperlinkEl);
+        });  // end of ajax call to NYTimes for default movie reviews
+
+
+    }); // end of ajax call to tastedive for default movie
+
+    // This is for omdb for the default movie
+
+    $.ajax({
+        url: `https://www.omdbapi.com/?t=${defaultTitle}&y=&plot=short&apikey=trilogy`,
+        method: "GET"
+    }).then(function (responseOMDB) {
+        // Update all the details on the page with the data retrieved from the ajax call
+        var paragraphEl = $("<p></p>");
+        console.log(responseOMDB.Plot);
+        paragraphEl.text([responseOMDB.Plot]);
+        $("#default-plot").append(paragraphEl);
+        $("#defaultPoster").attr("src", responseOMDB.Poster);
+        $("#defaultYear").text(`Year:  ${responseOMDB.Year}`);
+        $("#defaultDir").text(`Director:  ${responseOMDB.Director}`);
+        $("#defaultMPAA").text(`MPAA Rating:  ${responseOMDB.Rated}`);
+        $("#defaultStars").text(`Stars:  ${responseOMDB.Actors}`);
+    });  // end of ajax call to omdb for default movie
+
+});  // end of ajax call to themoviedb for popular movie
+
 
 
 // when the submit button is clicked to search for a new movie...
@@ -77,16 +114,13 @@ $("#search-button").on("click", function (event) {
     $(".container").css("display", "block");
     $(".progressDiv1").addClass("progress");
     $(".progressDiv2").addClass("indeterminate");
-    
+
     // get information from OMDB on the movie the user entered; need this first
     $.ajax({
         url: `https://www.omdbapi.com/?t=${inputMovie}&y=&plot=short&apikey=trilogy`,
         method: "GET"
     }).then(function (responseOMDB) {
-        console.log("OMDB:");
-        console.log(responseOMDB);
-        console.log(" "); // space between objects for clarity
-        
+
         // get the TasteDive started since it can take a while
         //    this is a search for list of similar movies to the one searched.
         // this has to be in the .then for the other searches, so that the elements 
@@ -97,25 +131,16 @@ $("#search-button").on("click", function (event) {
         }).then(function (responseTD) {
             // put this query nested in the OMDB response so the elements we're appending to exist when we expect them to.
             // query NYTimes for links to reviews of similar movies
-            console.log("TasteDive:");
-            console.log(responseTD);
-            console.log(" "); // space between objects for clarity
-            
+
             $.ajax({
                 url: `https://api.nytimes.com/svc/movies/v2/reviews/search.json?query=${inputMovie}&api-key=zZrGvMTHO8rZYgmqMozo6nBXMVSdTemM`, //nyt api request
                 method: "GET"
             }).then(function (responseNYT) {
-                console.log("NTY response:");
-                console.log(responseNYT);
-                console.log("");  // leave a space so it's clear what the object in the console is
-                console.log("Now have all data needed from APIs");
-                
+
                 // turn off progress bar
                 $(".progressDiv1").removeClass("progress");
                 $(".progressDiv2").removeClass("indeterminate");
                 $(".container").css("display", "none");
-
-
 
                 // build new card for movie searched
                 var newCard = $(".collapsible");
@@ -128,7 +153,7 @@ $("#search-button").on("click", function (event) {
                 var newRow = $('<div class="row"></div>');
 
                 // build row for  poster, year, director, rating, & stars in the respective new elements
-                var posterEl = $(`<div class="col s8 m8 l8 posterEl"><img src=${responseOMDB.Poster} alt="poster image"></div>`);
+                var posterEl = $(`<div class="col s8 m8 l8 posterEl"><img src=${responseOMDB.Poster} alt="poster image" width="100%"></div>`);
                 // build new ul with li's for year, director, rating, & stars in the respective new elements
                 //     ... to go to the right of the poster
                 var yearEtcEl = $('<div class="col s4 m4 l4 yearEtcEl"></div>');  // div ROW for year, dir, rating, starts
@@ -207,6 +232,4 @@ $("#search-button").on("click", function (event) {
             });   // end of ajax query to OMDB for movie searched
         });   // end of ajax query to NYTimes for review links
     });  // end of ajax query to TasteDive
-
-
 });
