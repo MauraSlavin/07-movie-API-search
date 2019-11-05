@@ -144,7 +144,7 @@ $("#search-button").on("click", function (event) {
 
                 // build new card for movie searched
                 var newCard = $(".collapsible");
-                var liEl = $('<li></li>');  //New li for each movie//
+                var liEl = $('<li class="new-movie"></li>');  //New li for each movie//
                 // card header is the title
                 var titleEl = $(`<div class="collapsible-header titleEl"><i class="material-icons">arrow_drop_down_circle</i>${responseOMDB.Title}</div>`);
                 // card body has the rest of the info
@@ -226,7 +226,7 @@ $("#search-button").on("click", function (event) {
 
 
                 // This has to go in .then block so it doesn't re-open the old first movie before the new one is prepended
-                var elem = document.querySelector('.collapsible'); // grabbing new movie dropdown
+                var elem = document.querySelector('.new-movie'); // grabbing new movie dropdown
                 var newMovie = M.Collapsible.init(elem);
                 newMovie.open(); // new movie dropdown opens 
 
