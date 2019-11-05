@@ -72,6 +72,11 @@ main {
     1px 1px 0 #000;
 }
 
+/* Doesn't display the character count for the input field that we think Materialize is generating */
+.character-counter {
+    display: none;
+}
+
 /* center TMDB logo vertically */
 .tmdbLogo {
     margin-top: 15px;
