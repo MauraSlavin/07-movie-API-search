@@ -160,17 +160,26 @@ $("#search-button").on("click", function (event) {
                 similarMovieDivEl.addClass("row center-align s12 m12 l12");
                 // add each of the movies to the div
                 for (var i = 0; i < numSimilarMovies; i++) {
-                    // Then dynamicaly generating buttons for each movie in the array
-                    // Creates a button
-                    var similarMovieButtonEl = $("<button>");
-                    // Adds a class of movie-btn to the button
-                    similarMovieButtonEl.addClass("movie-btn");
-                    // Adding a data-attribute
-                    similarMovieButtonEl.attr("data-name", responseTD.Similar.Results[i].Name);
-                    // Button text
-                    similarMovieButtonEl.text([responseTD.Similar.Results[i].Name]);
-                    // Appending the button to the div that holds all the suggestions
-                    similarMovieDivEl.append(similarMovieButtonEl);
+                    $.ajax({
+                        method: "GET",
+                        url: `https://www.omdbapi.com/?t=${responseTD.Similar.Results[i].Name}&y=&plot=short&apikey=trilogy`,
+                        success: function (response2) {
+                            console.log(response2);
+                            var similarImgDiv = $("<img>");
+                            similarImgDiv.addClass("movie-btn");
+                            similarImgDiv.attr("src", response2.Poster);
+                            similarImgDiv.attr("alt", response2.title);
+                            similarImgDiv.attr("data-name", response2.Title);
+                            similarMovieDivEl.append(similarImgDiv);
+                        }
+                    });
+
+                    // var similarImgDiv = $("<img>");
+                    // similarImgDiv.addClass("movie-btn");
+                    // similarImgDiv.attr("src", responseOMDB.Poster);
+                    // similarImgDiv.attr("alt", responseOMDB.title);
+                    // similarImgDiv.attr("data-name", responseTD.Similar.Results[i].Name);
+                    // similarMovieDivEl.append(similarImgDiv);
                 }; // end of for each similar movie
 
                 // add all the suggestions (the DIV) to the page
@@ -197,7 +206,7 @@ $("#search-button").on("click", function (event) {
 
 $(document).on("click", ".movie-btn", (event) => { // A click event on the whole docuement that only triggers if it also hits something with the class movie-btn
     console.log(event.currentTarget);
-    var temp = $(event.currentTarget).data("name"); // setting a variable to the data-name of the clicked button
+    var temp = $(event.currentTarget).attr("data-name"); // setting a variable to the data-name of the clicked button
     $(".movie-input").val(temp); // setting the value of the movie input to the similar movie title
 
     // taken from https://stackoverflow.com/questions/15935318/smooth-scroll-to-top
