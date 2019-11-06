@@ -107,13 +107,13 @@ $.ajax({
 // when the submit button is clicked to search for a new movie...
 $("#search-button").on("click", function (event) {
     event.preventDefault();
-    firstCard.close(); // initial open movie closes 
     inputMovie = $(".movie-input").val();   // get the movie the user entered
 
     // Turn on progress bar
     $(".container").css("display", "block");
     $(".progressDiv1").addClass("progress");
     $(".progressDiv2").addClass("indeterminate");
+
 
     // get information from OMDB on the movie the user entered; need this first
     $.ajax({
@@ -223,12 +223,12 @@ $("#search-button").on("click", function (event) {
                 $("#card-container").prepend(newCard);
                 // Add new movie to the top of the list of searched movies
 
-
-
                 // This has to go in .then block so it doesn't re-open the old first movie before the new one is prepended
-                var elem = document.querySelector('.new-movie'); // grabbing new movie dropdown
+
+                firstCard.close(); // initial open movie closes 
+                var elem = document.querySelector('.collapsible'); // grabbing new movie dropdown
                 var newMovie = M.Collapsible.init(elem);
-                newMovie.open(); // new movie dropdown opens 
+                newMovie.open();
 
             });   // end of ajax query to OMDB for movie searched
         });   // end of ajax query to NYTimes for review links
