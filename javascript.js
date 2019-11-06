@@ -3,7 +3,7 @@ var inputMovie = "";
 
 // variable for the number of simliar moview to display (so it's easy to change)
 var numSimilarMovies = 5;
-
+var movieName = "";  // Maura
 // the tastedive api key is 348815-07musicA-UK0GNRNO
 // the omdb api key thats not trilogy is bdc51342
 
@@ -15,59 +15,9 @@ var elems = document.querySelector('.first-movie'); // grabbing initial movie dr
 var firstCard = M.Collapsible.init(elems);
 firstCard.open(); // intial movie dropdown open
 
+function searchMovie(movie) {
 
 
-
-// This is for the movie db to get the default movie
-
-$.ajax({
-    url: "https://cors-anywhere.herokuapp.com/https://api.themoviedb.org/3/discover/movie?page=1&api_key=92dce995d85e4765ae2474cf460816b6",
-    method: "GET"
-}).then(function (responseTMDB) {
-    var defaultTitle = responseTMDB.results[0].original_title;
-    $("#default").append(defaultTitle);
-
-    // This is for the nyt movie review api for the default movie
-    $.ajax({
-        url: `https://api.nytimes.com/svc/movies/v2/reviews/search.json?query=${defaultTitle}&api-key=zZrGvMTHO8rZYgmqMozo6nBXMVSdTemM`,
-        method: "GET"
-    }).then(function (responseNYT) {
-
-        // add a hyperlink element with the link to the NY Times review
-        var hyperlinkEl = $("<a></a>");
-        hyperlinkEl.text([responseNYT.results[0].link.suggested_link_text]);
-        hyperlinkEl.attr("href", responseNYT.results[0].link.url);
-        hyperlinkEl.attr("target", "_target");   // to open review in a new tab
-        $("#default-review").append(hyperlinkEl);
-    });  // end of ajax call to NYTimes for default movie reviews
-
-    // This is for omdb for the default movie
-
-    $.ajax({
-        url: `https://www.omdbapi.com/?t=${defaultTitle}&y=&plot=short&apikey=trilogy`,
-        method: "GET"
-    }).then(function (responseOMDB) {
-        // Update all the details on the page with the data retrieved from the ajax call
-        var paragraphEl = $("<p></p>");
-        console.log(responseOMDB.Plot);
-        paragraphEl.text([responseOMDB.Plot]);
-        $("#default-plot").append(paragraphEl);
-        $("#defaultPoster").attr("src", responseOMDB.Poster);
-        $("#defaultYear").text(`Year:  ${responseOMDB.Year}`);
-        $("#defaultDir").text(`Director:  ${responseOMDB.Director}`);
-        $("#defaultMPAA").text(`MPAA Rating:  ${responseOMDB.Rated}`);
-        $("#defaultStars").text(`Stars:  ${responseOMDB.Actors}`);
-        $("#defaultTomatoes").text(`Rotten Tomatoes Rating:  ${responseOMDB.Ratings[1].Value}`);
-    });  // end of ajax call to omdb for default movie
-
-});  // end of ajax call to themoviedb for popular movie
-
-
-
-// when the submit button is clicked to search for a new movie...
-$("#search-button").on("click", function (event) {
-    event.preventDefault();
-    inputMovie = $(".movie-input").val();   // get the movie the user entered
 
     // Turn on progress bar
     $(".container").css("display", "block");
@@ -77,7 +27,7 @@ $("#search-button").on("click", function (event) {
 
     // get information from OMDB on the movie the user entered; need this first
     $.ajax({
-        url: `https://www.omdbapi.com/?t=${inputMovie}&y=&plot=short&apikey=trilogy`,
+        url: `https://www.omdbapi.com/?t=${movie}&y=&plot=short&apikey=trilogy`,
         method: "GET"
     }).then(function (responseOMDB) {
 
@@ -86,14 +36,14 @@ $("#search-button").on("click", function (event) {
         // this has to be in the .then for the other searches, so that the elements 
         // being appended to exist before we append them.
         $.ajax({
-            url: `https://cors-anywhere.herokuapp.com/https://tastedive.com/api/similar?q=${inputMovie}&k=348815-07musicA-UK0GNRNO`, // Taste dive api request
+            url: `https://cors-anywhere.herokuapp.com/https://tastedive.com/api/similar?q=${movie}&k=348815-07musicA-UK0GNRNO`, // Taste dive api request
             method: "GET"
         }).then(function (responseTD) {
             // put this query nested in the OMDB response so the elements we're appending to exist when we expect them to.
             // query NYTimes for links to reviews of similar movies
 
             $.ajax({
-                url: `https://api.nytimes.com/svc/movies/v2/reviews/search.json?query=${inputMovie}&api-key=zZrGvMTHO8rZYgmqMozo6nBXMVSdTemM`, //nyt api request
+                url: `https://api.nytimes.com/svc/movies/v2/reviews/search.json?query=${movie}&api-key=zZrGvMTHO8rZYgmqMozo6nBXMVSdTemM`, //nyt api request
                 method: "GET"
             }).then(function (responseNYT) {
 
@@ -193,11 +143,99 @@ $("#search-button").on("click", function (event) {
             });   // end of ajax query to OMDB for movie searched
         });   // end of ajax query to NYTimes for review links
     });  // end of ajax query to TasteDive
+};
+
+
+// This is for the movie db to get the default movie
+
+$.ajax({
+    url: "https://cors-anywhere.herokuapp.com/https://api.themoviedb.org/3/discover/movie?page=1&api_key=92dce995d85e4765ae2474cf460816b6",
+    method: "GET"
+}).then(function (responseTMDB) {
+    var defaultTitle = responseTMDB.results[0].original_title;
+    $("#default").append(defaultTitle);
+
+    // This is for the nyt movie review api for the default movie
+    $.ajax({
+        url: `https://api.nytimes.com/svc/movies/v2/reviews/search.json?query=${defaultTitle}&api-key=zZrGvMTHO8rZYgmqMozo6nBXMVSdTemM`,
+        method: "GET"
+    }).then(function (responseNYT) {
+
+        // add a hyperlink element with the link to the NY Times review
+        var hyperlinkEl = $("<a></a>");
+        hyperlinkEl.text([responseNYT.results[0].link.suggested_link_text]);
+        hyperlinkEl.attr("href", responseNYT.results[0].link.url);
+        hyperlinkEl.attr("target", "_target");   // to open review in a new tab
+        $("#default-review").append(hyperlinkEl);
+    });  // end of ajax call to NYTimes for default movie reviews
+
+    // This is for omdb for the default movie
+
+    $.ajax({
+        url: `https://www.omdbapi.com/?t=${defaultTitle}&y=&plot=short&apikey=trilogy`,
+        method: "GET"
+    }).then(function (responseOMDB) {
+        // Update all the details on the page with the data retrieved from the ajax call
+        var paragraphEl = $("<p></p>");
+        console.log(responseOMDB.Plot);
+        paragraphEl.text([responseOMDB.Plot]);
+        $("#default-plot").append(paragraphEl);
+        $("#defaultPoster").attr("src", responseOMDB.Poster);
+        $("#defaultYear").text(`Year:  ${responseOMDB.Year}`);
+        $("#defaultDir").text(`Director:  ${responseOMDB.Director}`);
+        $("#defaultMPAA").text(`MPAA Rating:  ${responseOMDB.Rated}`);
+        $("#defaultStars").text(`Stars:  ${responseOMDB.Actors}`);
+        $("#defaultTomatoes").text(`Rotten Tomatoes Rating:  ${responseOMDB.Ratings[1].Value}`);
+    });  // end of ajax call to omdb for default movie
+
+});  // end of ajax call to themoviedb for popular movie
+
+
+
+// when submit button is clicked to search for a new movie...
+$("#search-button").on("click", function (event) {
+    event.preventDefault();
+    inputMovie = $(".movie-input").val();   // get the movie the user entered
+    searchMovie(inputMovie);
+    movieName = '';
 });
+
+
+// remove char from movie string if backspace entered
+$('html').keyup(function (event) {
+    if (event.keyCode == 8) {
+        movieName = movieName.substring(0, movieName.length - 1);
+    };
+});
+
+
+// when enter hit in input field, search for a new movie...
+// if keypress is triggered, but enter not pressed, add new character to movie name, and display new string on the page
+$(".input-field").keypress(function (event) {
+    event.preventDefault();
+
+    // get code for key entered
+    var code = event.keyCode || event.which;
+
+    // 13 is code for enter
+    if (code == 13) {
+        searchMovie(movieName);    // do the search
+        movieName = '';            // pre for new movie name
+    }
+    else {                      // character was entered (most likely!)
+        // fromCharCode converts the key code to the character entered
+        movieName = movieName + String.fromCharCode(event.which);   // append new character to movie name
+    };
+
+    // display either the partial movie name (if not done) or a blank string (if movie searched)
+    $(".movie-input").val(movieName);
+});
+
 
 $(document).on("click", ".movie-btn", (event) => { // A click event on the whole docuement that only triggers if it also hits something with the class movie-btn
     console.log(event.currentTarget);
     var temp = $(event.currentTarget).data("name"); // setting a variable to the data-name of the clicked button
+                    
     $(".movie-input").val(temp); // setting the value of the movie input to the similar movie title
 
     // taken from https://stackoverflow.com/questions/15935318/smooth-scroll-to-top
