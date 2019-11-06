@@ -27,59 +27,19 @@ $.ajax({
     var defaultTitle = responseTMDB.results[0].original_title;
     $("#default").append(defaultTitle);
 
-    /* Query for similar movies for default movie */
+    // This is for the nyt movie review api for the default movie
     $.ajax({
-        url: `https://cors-anywhere.herokuapp.com/https://tastedive.com/api/similar?q=${defaultTitle}&k=348815-07musicA-UK0GNRNO`,
+        url: `https://api.nytimes.com/svc/movies/v2/reviews/search.json?query=${defaultTitle}&api-key=zZrGvMTHO8rZYgmqMozo6nBXMVSdTemM`,
         method: "GET"
-    }).then(function (responseTD) {
+    }).then(function (responseNYT) {
 
-        // Creates a button
-        var buttonDivEl = $("<button>");
-        // Adds a class of movie-btn to the button
-        buttonDivEl.addClass("movie-btn");
-
-        // maxMovies is the number of movies we've decided to show, or the max number of similar movies returned (if less)
-        var maxMovies = numSimilarMovies;   // assume at least the number we want to show is available
-        var numResults = responseTD.Similar.Results;  // get the similar movies returned
-        var numResults = numResults.length;           // get the number of similar movies returned
-        if (numResults == 0) {                   // if no similar movies returned, set button with message saying so
-            // Adding a data-attribute  
-            buttonDivEl.attr("data-name", "no movies to suggest");
-            // Button text
-            buttonDivEl.text(["no movies to suggest"]);
-        }
-        else {                                 // at a button for each movie returned, up to the number we've decided to show
-            numResults = Math.min(length.numResults, numSimilarMovies);   // reduce numResults to a max of the number we want to show
-            for (var i = 0; i < numResults; i++) {     // add a button for each of the movies we want to show
-                // Then dynamicaly generating buttons for each movie in the array
-                // Adding a data-attribute  
-                buttonDivEl.attr("data-name", responseTD.Similar.Results[i].Name);
-                // Button text
-                buttonDivEl.text([responseTD.Similar.Results[i].Name]);
-
-            }; // end of for each similar movie
-        };
-        // Appending the button to the page
-        $("#default-similar").append(buttonDivEl);
-
-
-
-        // This is for the nyt movie review api for the default movie
-        $.ajax({
-            url: `https://api.nytimes.com/svc/movies/v2/reviews/search.json?query=${defaultTitle}&api-key=zZrGvMTHO8rZYgmqMozo6nBXMVSdTemM`,
-            method: "GET"
-        }).then(function (responseNYT) {
-
-            // add a hyperlink element with the link to the NY Times review
-            var hyperlinkEl = $("<a></a>");
-            hyperlinkEl.text([responseNYT.results[0].link.suggested_link_text]);
-            hyperlinkEl.attr("href", responseNYT.results[0].link.url);
-            hyperlinkEl.attr("target", "_target");   // to open review in a new tab
-            $("#default-review").append(hyperlinkEl);
-        });  // end of ajax call to NYTimes for default movie reviews
-
-
-    }); // end of ajax call to tastedive for default movie
+        // add a hyperlink element with the link to the NY Times review
+        var hyperlinkEl = $("<a></a>");
+        hyperlinkEl.text([responseNYT.results[0].link.suggested_link_text]);
+        hyperlinkEl.attr("href", responseNYT.results[0].link.url);
+        hyperlinkEl.attr("target", "_target");   // to open review in a new tab
+        $("#default-review").append(hyperlinkEl);
+    });  // end of ajax call to NYTimes for default movie reviews
 
     // This is for omdb for the default movie
 
@@ -233,4 +193,20 @@ $("#search-button").on("click", function (event) {
             });   // end of ajax query to OMDB for movie searched
         });   // end of ajax query to NYTimes for review links
     });  // end of ajax query to TasteDive
+});
+
+$(document).on("click", ".movie-btn", function () { // A click event on the whole docuement that only triggers if it also hits something with the class movie-btn
+    var temp = $(this).data("name"); // setting a variable to the data-name of the clicked button
+    $(".movie-input").val(temp); // setting the value of the movie input to the similar movie title
+
+    // taken from https://stackoverflow.com/questions/15935318/smooth-scroll-to-top
+
+    const scrollToTop = () => {
+        const c = document.documentElement.scrollTop || document.body.scrollTop;
+        if (c > 0) {
+            window.requestAnimationFrame(scrollToTop);
+            window.scrollTo(0, c - c / 8);
+        }
+    };
+    scrollToTop();
 });
