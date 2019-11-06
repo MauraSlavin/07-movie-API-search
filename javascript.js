@@ -208,6 +208,7 @@ $('html').keyup(function (event) {
     };
 });
 
+
 // when enter hit in input field, search for a new movie...
 // if keypress is triggered, but enter not pressed, add new character to movie name, and display new string on the page
 $(".input-field").keypress(function (event) {
@@ -231,17 +232,19 @@ $(".input-field").keypress(function (event) {
 });
 
 
-$(document).on("click", ".movie-btn", function () { // A click event on the whole docuement that only triggers if it also hits something with the class movie-btn
-    var temp = $(this).data("name"); // setting a variable to the data-name of the clicked button
+$(document).on("click", ".movie-btn", (event) => { // A click event on the whole docuement that only triggers if it also hits something with the class movie-btn
+    console.log(event.currentTarget);
+    var temp = $(event.currentTarget).data("name"); // setting a variable to the data-name of the clicked button
+                    
     $(".movie-input").val(temp); // setting the value of the movie input to the similar movie title
 
     // taken from https://stackoverflow.com/questions/15935318/smooth-scroll-to-top
 
-    const scrollToTop = () => {
-        const c = document.documentElement.scrollTop || document.body.scrollTop;
-        if (c > 0) {
-            window.requestAnimationFrame(scrollToTop);
-            window.scrollTo(0, c - c / 8);
+    const scrollToTop = () => { //declaring the arrow function
+        const c = document.documentElement.scrollTop || document.body.scrollTop; //set c to equal to the number of pixels scrolled past the top. the or statement if for cross browser compatibility
+        if (c > 0) { // starting an if statement where the condition is whether or not youve scrolled below the top
+            window.requestAnimationFrame(scrollToTop); // This is a recursive callback where we stitch together what the function does to give it a smooth look.
+            window.scrollTo(0, c - c / 8); // here we set where we are scrolling to (in this case the top of the page). the second parameter is the speed of the scroll. the reason we do this is because we dont want the scroll to take forever if youre really deep into the page.
         }
     };
     scrollToTop();
