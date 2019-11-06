@@ -11,6 +11,10 @@ html, body {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    /*  Interesting font, size relative to screen size (bigger for smaller screens below) */
+    font-family: 'Indie Flower', cursive;
+    font-size: 2vw;
+    font-weight: bolder;
 }
 
 body {
@@ -32,7 +36,6 @@ body {
     margin: 0;
 }
 
-/* no white space on the sides */
 main {
     /* for sticky footer */
     flex: 1 0 auto;
@@ -59,11 +62,18 @@ main {
     background-size: auto;
 }
 
+
+/* keep header on top of header background (Maura) */
+h1 {
+    margin: 0;
+}
+
 /* make header text legible */
 .brand-logo {
     color: red !important;
+    background: transparent; /* (Maura) */
     font-weight: bold;
-    font-size: 50px !important;
+    font-size: 70px !important;
     /* the next few lines puts an outline on the text */
     text-shadow:
     -1px -1px 0 #000,
@@ -77,19 +87,65 @@ main {
     display: none;
 }
 
-/* center TMDB logo vertically */
+/* highlight clickable text for NYTimes review link */
+a {
+    color: red;
+    background-color: rgb(250, 236, 209);
+}
+
+/* "Normal" background color for NYTimes review link */
+a:link, a:visited {
+    background-color: rgb(250, 236, 209);
+}
+  
+/* change background for NYTimes review link when hovering to make it obvious it's clickable */
+a:hover, a:active {
+    background-color: lightgreen;
+}
+   
+/* center TMDB logo vertically; smaller more formal text */
 .tmdbLogo {
     margin-top: 15px;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 10px;
 }
 
 /* background color for titles */
 .collapsible-header {
     background: transparent;
+    font-size: 5vw; 
+    height: 2em;
 }
+
+/* keep default movie title over background */
+#default {
+    margin: 0;
+}
+
+/* keep search icon in the input field */
+#search-button {
+    margin-top: -10px;
+}
+
+/* background color for input field (to differentiate it from space around it) */
+/* .input-field {
+    background-color: rgb(250, 236, 209);
+    color: red;
+    height: 2em;
+}
+*/
 
 /* background color for input field (to differentiate it from space around it) */
 .movie-input {
     background-color: rgb(250, 236, 209) !important;
+    color: red;
+    height: 2em;
+}
+
+/* highlight header when hovering to make it obvious it's clickable */
+.collapsible-header:hover, .input-field:hover {
+    background-color: rgb(250, 236, 209);
+    color: red;
 }
 
 /* all images take up full width */
@@ -109,3 +165,17 @@ footer {
     background-image: url("crowd.png");
     height: 100px;
 }
+
+/* for smaller screens */
+@media only screen and (max-width: 720px) {
+
+    /* adjust text size */
+    body { 
+       font-size: 3vw; 
+    }
+
+    /* keep search icon by the input field */
+    #search-button {
+        margin-top: 0;
+    }
+ }  /* end of block on smaller screens */
