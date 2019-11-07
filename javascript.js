@@ -52,7 +52,8 @@ function searchMovie(movie) {
                         console.log(responseTD);  // Maura
                         // put this query nested in the OMDB response so the elements we're appending to exist when we expect them to.
                         // query NYTimes for links to reviews of similar movies
-
+                        var movieLocal = movie.toLowerCase();   // so I can access it after the ajax call; will compare lowercase to api in lowercase
+                        movieLocal = movieLocal.replace(/[\W_]/g, "");  // remove all non-alphanumerics to make comparison more friendly
                         $.ajax({
                             url: `https://api.nytimes.com/svc/movies/v2/reviews/search.json?query=${movie}&api-key=zZrGvMTHO8rZYgmqMozo6nBXMVSdTemM`, //nyt api request
                             method: "GET"
@@ -60,6 +61,7 @@ function searchMovie(movie) {
                             console.log("NYT response");  // Maura
                             console.log(responseNYT);  // Maura
                             console.log("Num results: " + responseNYT.num_results);
+
                             // turn off progress bar
                             $(".progressDiv1").removeClass("progress");
                             $(".progressDiv2").removeClass("indeterminate");
@@ -130,10 +132,29 @@ function searchMovie(movie) {
                             }  // of if no reviews found
                             // if review, display clickable link
                             else {
-                                var reviewEla = $("<a></a>");
-                                reviewEla.text([responseNYT.results[0].link.suggested_link_text]);
-                                reviewEla.attr("href", responseNYT.results[0].link.url);
-                                reviewEla.attr("target", "_blank");   // to open in a new tab
+                                var reviewLink = "";
+                                var reviewText = "";
+                                // make sure movie review name matches - NYTimes doesn't always give exact match
+                                for (var i = 0; i < responseNYT.num_results; i++) {
+                                    // find a match
+                                    var checkTitle = responseNYT.results[i].display_title.toLowerCase();  // make api title lowercase...
+                                    checkTitle = checkTitle.replace(/[\W_]/g, "");  // ... and remove non-alphanumerics before comparison
+                                    if (movieLocal == checkTitle) {   // found one!
+                                        reviewLink = responseNYT.results[i].link.url;
+                                        reviewText = responseNYT.results[i].link.suggested_link_text;
+                                        i = responseNYT.num_results;  // to force for loop to exit
+                                    };  // end of if movieLocal = a title in the NYT response
+                                };  // end of checking for each response in the NYTimes result
+                                // if no matches in results from NYTimes, display message saying so
+                                if (reviewLink == "") {
+                                    var reviewEla = $("<p>No NY Times reviews were found for this movie.</p>");
+                                }  // of if no review titles matched
+                                else {  // else there was a match!  A review for THIS movie  was found.
+                                    var reviewEla = $("<a></a>");
+                                    reviewEla.text([reviewText]);
+                                    reviewEla.attr("href", reviewLink);
+                                    reviewEla.attr("target", "_blank");   // to open in a new tab
+                                };  // of else - a match was found!
                             };  // of else if reviews were found
                             // append review message or link
                             $(reviewEldiv).append(reviewEla);
