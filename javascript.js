@@ -246,6 +246,7 @@ $("#search-button").on("click", function (event) {
     inputMovie = $(".movie-input").val();   // get the movie the user entered
     searchMovie(inputMovie);
     movieName = '';
+    $(".movie-input").val("");   // clear the input field
     $("#search-button").removeClass("hover-class");
 });
 
