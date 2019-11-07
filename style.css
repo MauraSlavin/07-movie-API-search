@@ -155,11 +155,16 @@ a:hover, a:active {
 }
 
 /* highlight header when hovering to make it obvious it's clickable */
-.collapsible-header:hover, .input-field:hover {
+.collapsible-header:hover {
     background-color: rgb(250, 236, 209);
     color: red;
 }
 
+/* add this class when we want the field to be hovered, remove when not hovered. */
+.hover-class:hover {
+    background-color: rgb(250, 236, 209);
+    color: red;
+}
 /* all images take up full width */
 /*   If this isn't here, text to the right of the poster gets pushed too far to the right */
 .imgPoster, .posterEl, #defaultPoster {

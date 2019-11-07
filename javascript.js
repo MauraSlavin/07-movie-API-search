@@ -3,7 +3,7 @@ var inputMovie = "";
 
 // variable for the number of simliar moview to display (so it's easy to change)
 var numSimilarMovies = 5;
-var movieName = "";  // Maura
+var movieName = "";  // Keep track of what is in the input field
 // the tastedive api key is 348815-07musicA-UK0GNRNO
 // the omdb api key thats not trilogy is bdc51342
 
@@ -27,10 +27,11 @@ function searchMovie(movie) {
 
     // get information from OMDB on the movie the user entered; need this first
     $.ajax({
-        url: `https://www.omdbapi.com/?t=${movie}&y=&plot=short&apikey=trilogy`,
+        url: `https://www.omdbapi.com/?t=${movie}&y=&plot=short&apikey=bdc51342`,
         method: "GET"
     }).then(function (responseOMDB) {
-
+        console.log("OMDB response");  // Maura
+        console.log(responseOMDB);  // Maura
         // get the TasteDive started since it can take a while
         //    this is a search for list of similar movies to the one searched.
         // this has to be in the .then for the other searches, so that the elements 
@@ -39,6 +40,8 @@ function searchMovie(movie) {
             url: `https://cors-anywhere.herokuapp.com/https://tastedive.com/api/similar?q=${movie}&k=348815-07musicA-UK0GNRNO`, // Taste dive api request
             method: "GET"
         }).then(function (responseTD) {
+            console.log("TD response");  // Maura
+            console.log(responseTD);  // Maura
             // put this query nested in the OMDB response so the elements we're appending to exist when we expect them to.
             // query NYTimes for links to reviews of similar movies
 
@@ -46,7 +49,8 @@ function searchMovie(movie) {
                 url: `https://api.nytimes.com/svc/movies/v2/reviews/search.json?query=${movie}&api-key=zZrGvMTHO8rZYgmqMozo6nBXMVSdTemM`, //nyt api request
                 method: "GET"
             }).then(function (responseNYT) {
-
+                console.log("NYT response");  // Maura
+                console.log(responseNYT);  // Maura
                 // turn off progress bar
                 $(".progressDiv1").removeClass("progress");
                 $(".progressDiv2").removeClass("indeterminate");
@@ -112,7 +116,7 @@ function searchMovie(movie) {
                 for (var i = 0; i < numSimilarMovies; i++) {
                     $.ajax({
                         method: "GET",
-                        url: `https://www.omdbapi.com/?t=${responseTD.Similar.Results[i].Name}&y=&plot=short&apikey=trilogy`,
+                        url: `https://www.omdbapi.com/?t=${responseTD.Similar.Results[i].Name}&y=&plot=short&apikey=bdc51342`,
                         success: function (response2) {
                             console.log(response2);
                             var similarImgDiv = $("<img>");
@@ -121,6 +125,10 @@ function searchMovie(movie) {
                             similarImgDiv.attr("alt", response2.title);
                             similarImgDiv.attr("data-name", response2.Title);
                             similarMovieDivEl.append(similarImgDiv);
+                        },
+                        fail: function (response2) {
+                            console.log("OMDB fail");  // Maura
+                            console.log(response2);  // Maura
                         }
                     });
 
@@ -161,6 +169,8 @@ $.ajax({
     url: "https://cors-anywhere.herokuapp.com/https://api.themoviedb.org/3/discover/movie?page=1&api_key=92dce995d85e4765ae2474cf460816b6",
     method: "GET"
 }).then(function (responseTMDB) {
+    console.log("TMDB response");  // Maura
+    console.log(responseTMDB);  // Maura
     var defaultTitle = responseTMDB.results[0].original_title;
     $("#default").append(defaultTitle);
 
@@ -169,7 +179,8 @@ $.ajax({
         url: `https://api.nytimes.com/svc/movies/v2/reviews/search.json?query=${defaultTitle}&api-key=zZrGvMTHO8rZYgmqMozo6nBXMVSdTemM`,
         method: "GET"
     }).then(function (responseNYT) {
-
+        console.log("NYT response");  // Maura
+        console.log(responseNYT);  // Maura
         // add a hyperlink element with the link to the NY Times review
         var hyperlinkEl = $("<a></a>");
         hyperlinkEl.text([responseNYT.results[0].link.suggested_link_text]);
@@ -181,9 +192,11 @@ $.ajax({
     // This is for omdb for the default movie
 
     $.ajax({
-        url: `https://www.omdbapi.com/?t=${defaultTitle}&y=&plot=short&apikey=trilogy`,
+        url: `https://www.omdbapi.com/?t=${defaultTitle}&y=&plot=short&apikey=bdc51342`,
         method: "GET"
     }).then(function (responseOMDB) {
+        console.log("OMDB response");  // Maura
+        console.log(responseOMDB);  // Maura
         // Update all the details on the page with the data retrieved from the ajax call
         var paragraphEl = $("<p></p>");
         console.log(responseOMDB.Plot);
@@ -207,6 +220,7 @@ $("#search-button").on("click", function (event) {
     inputMovie = $(".movie-input").val();   // get the movie the user entered
     searchMovie(inputMovie);
     movieName = '';
+    $("#search-button").removeClass("hover-class");
 });
 
 
@@ -214,6 +228,14 @@ $("#search-button").on("click", function (event) {
 $('html').keyup(function (event) {
     if (event.keyCode == 8) {
         movieName = movieName.substring(0, movieName.length - 1);
+        // add hover highlighting if movieName no longer empty
+        if (movieName.length == 1) {
+            $("#search-button").addClass("hover-class");
+        }
+        // remove hover highlighting if movieName becomes empty
+        else if (movieName.length == 0) {
+            $("#search-button").removeClass("hover-class");
+        };
     };
 });
 
@@ -238,6 +260,10 @@ $(".input-field").keypress(function (event) {
 
     // display either the partial movie name (if not done) or a blank string (if movie searched)
     $(".movie-input").val(movieName);
+    $("#search-button").removeClass("hover-class");  // in case there was already a hover-class there; don't want there to be two! (or it won't go away when you expect it to)
+    // add hover highlighting, since there is something in that field.
+    $("#search-button").addClass("hover-class");
+
 });
 
 
@@ -246,7 +272,12 @@ $(document).on("click", ".movie-btn", (event) => { // A click event on the whole
     movieName = $(event.currentTarget).attr("data-name"); // setting a variable to the data-name of the clicked button
     $(".movie-input").val(movieName); // setting the value of the movie input to the similar movie title
     $(".movie-input").focus();
-    
+    // delete the hover-class first, in case there's already one there.  Then add one.
+    //   if we end up with 2 hover-class's, there might still be one there when we remove it.
+    $("#search-button").removeClass("hover-class");
+    $("#search-button").addClass("hover-class");
+
+
     // taken from https://stackoverflow.com/questions/15935318/smooth-scroll-to-top
 
     const scrollToTop = () => { //declaring the arrow function
