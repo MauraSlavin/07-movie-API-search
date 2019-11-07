@@ -44,7 +44,7 @@ function searchMovie(movie) {
                 // this has to be in the .then for the other searches, so that the elements 
                 // being appended to exist before we append them.
                 $.ajax({
-                    url: `https://cors-anywhere.herokuapp.com/https://tastedive.com/api/similar?q=${movie}&k=348815-07musicA-UK0GNRNO`, // Taste dive api request
+                    url: `https://cors-anywhere.herokuapp.com/https://tastedive.com/api/similar?q=${movie}&t=movies&k=348815-07musicA-UK0GNRNO`, // Taste dive api request
                     method: "GET",
                     type: "POST",
                     success: function (responseTD) {
