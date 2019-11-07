@@ -17,150 +17,207 @@ firstCard.open(); // intial movie dropdown open
 
 function searchMovie(movie) {
 
-
-
     // Turn on progress bar
     $(".container").css("display", "block");
     $(".progressDiv1").addClass("progress");
     $(".progressDiv2").addClass("indeterminate");
 
-
     // get information from OMDB on the movie the user entered; need this first
     $.ajax({
         url: `https://www.omdbapi.com/?t=${movie}&y=&plot=short&apikey=bdc51342`,
-        method: "GET"
-    }).then(function (responseOMDB) {
-        console.log("OMDB response");  // Maura
-        console.log(responseOMDB);  // Maura
-        // get the TasteDive started since it can take a while
-        //    this is a search for list of similar movies to the one searched.
-        // this has to be in the .then for the other searches, so that the elements 
-        // being appended to exist before we append them.
-        $.ajax({
-            url: `https://cors-anywhere.herokuapp.com/https://tastedive.com/api/similar?q=${movie}&k=348815-07musicA-UK0GNRNO`, // Taste dive api request
-            method: "GET"
-        }).then(function (responseTD) {
-            console.log("TD response");  // Maura
-            console.log(responseTD);  // Maura
-            // put this query nested in the OMDB response so the elements we're appending to exist when we expect them to.
-            // query NYTimes for links to reviews of similar movies
+        method: "GET",
+        success: function (responseOMDB) {
+            console.log("OMDB response");  // Maura
+            console.log(responseOMDB);  // Maura
 
-            $.ajax({
-                url: `https://api.nytimes.com/svc/movies/v2/reviews/search.json?query=${movie}&api-key=zZrGvMTHO8rZYgmqMozo6nBXMVSdTemM`, //nyt api request
-                method: "GET"
-            }).then(function (responseNYT) {
-                console.log("NYT response");  // Maura
-                console.log(responseNYT);  // Maura
+            // if movie not found, put error message in input field
+            if (responseOMDB.Response == "False") {   // it's a string, not a boolean
+                $(".movie-input").val(`Sorry, ${movie} not found.`);        // put error message in input field
                 // turn off progress bar
                 $(".progressDiv1").removeClass("progress");
                 $(".progressDiv2").removeClass("indeterminate");
                 $(".container").css("display", "none");
+            }
+            else {
+                // get the TasteDive started since it can take a while
+                //    this is a search for list of similar movies to the one searched.
+                // this has to be in the .then for the other searches, so that the elements 
+                // being appended to exist before we append them.
+                $.ajax({
+                    url: `https://cors-anywhere.herokuapp.com/https://tastedive.com/api/similar?q=${movie}&k=348815-07musicA-UK0GNRNO`, // Taste dive api request
+                    method: "GET",
+                    type: "POST",
+                    success: function (responseTD) {
+                        console.log("TD response");  // Maura
+                        console.log(responseTD);  // Maura
+                        // put this query nested in the OMDB response so the elements we're appending to exist when we expect them to.
+                        // query NYTimes for links to reviews of similar movies
 
-                // build new card for movie searched
-                var newCard = $(".collapsible");
-                var liEl = $('<li class="new-movie"></li>');  //New li for each movie//
-                // card header is the title
-                var titleEl = $(`<div class="collapsible-header titleEl"><i class="material-icons">arrow_drop_down_circle</i>${responseOMDB.Title}</div>`);
-                // card body has the rest of the info
-                var listBody = $('<div class="collapsible-body">');
-                // new row has the poster, year, director, MPAA rating, stars
-                var newRow = $('<div class="row"></div>');
+                        $.ajax({
+                            url: `https://api.nytimes.com/svc/movies/v2/reviews/search.json?query=${movie}&api-key=zZrGvMTHO8rZYgmqMozo6nBXMVSdTemM`, //nyt api request
+                            method: "GET"
+                        }).then(function (responseNYT) {
+                            console.log("NYT response");  // Maura
+                            console.log(responseNYT);  // Maura
+                            console.log("Num results: " + responseNYT.num_results);
+                            // turn off progress bar
+                            $(".progressDiv1").removeClass("progress");
+                            $(".progressDiv2").removeClass("indeterminate");
+                            $(".container").css("display", "none");
 
-                // build row for  poster, year, director, rating, & stars in the respective new elements
-                var posterEl = $(`<div class="col s8 m8 l8 posterEl"><img src=${responseOMDB.Poster} alt="poster image" width="100%"></div>`);
-                // build new ul with li's for year, director, rating, & stars in the respective new elements
-                //     ... to go to the right of the poster
-                var yearEtcEl = $('<div class="col s4 m4 l4 yearEtcEl"></div>');  // div ROW for year, dir, rating, starts
-                var newDetailsUl = $('<ul class="row"></ul>');          // UL for year, dir, rating, stars
-                var yearLiEl = $(`<li class="collection-item movie-det-li">Year:  ${responseOMDB.Year}</li>`);  // year
-                var dirLiEl = $(`<li class="collection-item movie-det-li">Director:  ${responseOMDB.Director}</li>`);  // director
-                var ratgLiEl = $(`<li class="collection-item movie-det-li">MPAA Rating:  ${responseOMDB.Rated}</li>`);  // rating
-                var starsLiEl = $(`<li class="collection-item movie-det-li">Stars:  ${responseOMDB.Actors}</li>`);  // stars
-                var tomatoesLiEl = $(`<li class="collection-item movie-det-li">Rotten Tomatoes Rating:  ${responseOMDB.Ratings[1].Value}</li>`); // rotten tomatoes
+                            // build new card for movie searched
+                            var newCard = $(".collapsible");
+                            var liEl = $('<li class="new-movie"></li>');  //New li for each movie//
+                            // card header is the title
+                            var titleEl = $(`<div class="collapsible-header titleEl"><i class="material-icons">arrow_drop_down_circle</i>${responseOMDB.Title}</div>`);
+                            // card body has the rest of the info
+                            var listBody = $('<div class="collapsible-body">');
+                            // new row has the poster, year, director, MPAA rating, stars
+                            var newRow = $('<div class="row"></div>');
 
-                // add the year, director, rating, stars, & rotten tomatoes to the ul to the right of the poster
-                $(newDetailsUl).append(yearLiEl).append(dirLiEl).append(ratgLiEl).append(starsLiEl).append(tomatoesLiEl);
-                // then add the ul to the small column div (to go to the right of the poster)
-                $(yearEtcEl).append(newDetailsUl);
+                            // build row for  poster, year, director, rating, & stars in the respective new elements
+                            var posterEl = $(`<div class="col s8 m8 l8 posterEl"><img src=${responseOMDB.Poster} alt="poster image" width="100%"></div>`);
+                            // build new ul with li's for year, director, rating, & stars in the respective new elements
+                            //     ... to go to the right of the poster
+                            var yearEtcEl = $('<div class="col s4 m4 l4 yearEtcEl"></div>');  // div ROW for year, dir, rating, starts
+                            var newDetailsUl = $('<ul class="row"></ul>');          // UL for year, dir, rating, stars
+                            var yearLiEl = $(`<li class="collection-item movie-det-li">Year:  ${responseOMDB.Year}</li>`);  // year
+                            var dirLiEl = $(`<li class="collection-item movie-det-li">Director:  ${responseOMDB.Director}</li>`);  // director
+                            var ratgLiEl = $(`<li class="collection-item movie-det-li">MPAA Rating:  ${responseOMDB.Rated}</li>`);  // rating
+                            var starsLiEl = $(`<li class="collection-item movie-det-li">Stars:  ${responseOMDB.Actors}</li>`);  // stars
+
+                            switch (responseOMDB.Ratings.length) {
+                                case 0:  // if length of string is null, there were no ratings
+                                    var tomatoesLiEl = $(`<li class="collection-item movie-det-li">(No rating found.)</li>`); // no rating found
+                                    break;
+
+                                case 1:  // if length of Ratings is 1, just grab it
+                                    var tomatoesLiEl = $(`<li class="collection-item movie-det-li">${responseOMDB.Ratings[0].Source}:  ${responseOMDB.Ratings[0].Value}</li>`);
+                                    break;
+
+                                default:  // otherwise grab the second, which seems to be Rotten Tomatoes. Use their verbage, in case it's different
+                                    var tomatoesLiEl = $(`<li class="collection-item movie-det-li">${responseOMDB.Ratings[1].Source}:  ${responseOMDB.Ratings[1].Value}</li>`); // rotten tomatoes
+                                    break;
+                            };  // of getting the right ratings (switch statement)
+
+                            // add the year, director, rating, stars, & rotten tomatoes to the ul to the right of the poster
+                            $(newDetailsUl).append(yearLiEl).append(dirLiEl).append(ratgLiEl).append(starsLiEl).append(tomatoesLiEl);
+                            // then add the ul to the small column div (to go to the right of the poster)
+                            $(yearEtcEl).append(newDetailsUl);
 
 
-                // add the poster to the new row that will be in the body
-                // actual poster data still needs to be set
-                $(newRow).append(posterEl);
+                            // add the poster to the new row that will be in the body
+                            // actual poster data still needs to be set
+                            $(newRow).append(posterEl);
 
-                // add Year, Director, Rating, Stars to newrow block
-                $(newRow).append(yearEtcEl);
+                            // add Year, Director, Rating, Stars to newrow block
+                            $(newRow).append(yearEtcEl);
 
-                // add newrow to the body of the card
-                $(listBody).append(newRow);
+                            // add newrow to the body of the card
+                            $(listBody).append(newRow);
 
-                // add plot under the poster & other info
-                var plotEl = $(`<div class="row center-align s12 m12 l12"><p>${responseOMDB.Plot}</p></div>`);
-                plotEl.addClass("center-align s12 m12 l12");
-                $(listBody).append(plotEl);
+                            // add plot under the poster & other info
+                            var plotEl = $(`<div class="row center-align s12 m12 l12"><p>${responseOMDB.Plot}</p></div>`);
+                            plotEl.addClass("center-align s12 m12 l12");
+                            $(listBody).append(plotEl);
 
-                // add NY Times review under the plot
-                var reviewEldiv = $("<div class='row center-align s12 m12 l12'>");
-                var reviewEla = $("<a></a>");
-                reviewEla.text([responseNYT.results[0].link.suggested_link_text]);
-                reviewEla.attr("href", responseNYT.results[0].link.url);
-                reviewEla.attr("target", "_blank");   // to open in a new tab
-                $(reviewEldiv).append(reviewEla);
-                $(listBody).append(reviewEldiv);
+                            // add NY Times review under the plot
+                            var reviewEldiv = $("<div class='row center-align s12 m12 l12'>");
 
-                // Add other similar movie suggestions to page
-                // create the div
-                var similarMovieDivEl = $("<div>");
-                similarMovieDivEl.addClass("row center-align s12 m12 l12");
-                // add each of the movies to the div
-                for (var i = 0; i < numSimilarMovies; i++) {
-                    $.ajax({
-                        method: "GET",
-                        url: `https://www.omdbapi.com/?t=${responseTD.Similar.Results[i].Name}&y=&plot=short&apikey=bdc51342`,
-                        success: function (response2) {
-                            console.log(response2);
-                            var similarImgDiv = $("<img>");
-                            similarImgDiv.addClass("movie-btn");
-                            similarImgDiv.attr("src", response2.Poster);
-                            similarImgDiv.attr("alt", response2.title);
-                            similarImgDiv.attr("data-name", response2.Title);
-                            similarMovieDivEl.append(similarImgDiv);
-                        },
-                        fail: function (response2) {
-                            console.log("OMDB fail");  // Maura
-                            console.log(response2);  // Maura
-                        }
-                    });
+                            // if no reviews, display message saying so
+                            if (responseNYT.num_results == 0) {
+                                var reviewEla = $("<p>No NY Times reviews were found for this movie.</p>");
+                            }  // of if no reviews found
+                            // if review, display clickable link
+                            else {
+                                var reviewEla = $("<a></a>");
+                                reviewEla.text([responseNYT.results[0].link.suggested_link_text]);
+                                reviewEla.attr("href", responseNYT.results[0].link.url);
+                                reviewEla.attr("target", "_blank");   // to open in a new tab
+                            };  // of else if reviews were found
+                            // append review message or link
+                            $(reviewEldiv).append(reviewEla);
+                            $(listBody).append(reviewEldiv);
 
-                    // var similarImgDiv = $("<img>");
-                    // similarImgDiv.addClass("movie-btn");
-                    // similarImgDiv.attr("src", responseOMDB.Poster);
-                    // similarImgDiv.attr("alt", responseOMDB.title);
-                    // similarImgDiv.attr("data-name", responseTD.Similar.Results[i].Name);
-                    // similarMovieDivEl.append(similarImgDiv);
-                }; // end of for each similar movie
+                            // Add other similar movie suggestions to page
+                            // create the div
+                            var message;
+                            var similarMovieDivEl = $("<div>");
+                            similarMovieDivEl.addClass("row center-align s12 m12 l12");
+                            // add each of the movies to the div
+                            for (var i = 0; i < numSimilarMovies; i++) {
+                                $.ajax({
+                                    method: "GET",
+                                    url: `https://www.omdbapi.com/?t=${responseTD.Similar.Results[i].Name}&y=&plot=short&apikey=bdc51342`,
+                                    success: function (response2) {
+                                        console.log(response2);
+                                        var similarImgDiv = $("<img>");
+                                        similarImgDiv.addClass("movie-btn");
+                                        similarImgDiv.attr("src", response2.Poster);
+                                        similarImgDiv.attr("alt", response2.title);
+                                        similarImgDiv.attr("data-name", response2.Title);
+                                        similarMovieDivEl.append(similarImgDiv);
+                                    },  // of success on omdb query for similar movie posters
+                                    // display message & clickable paragraph if no poster was found.
+                                    fail: function (response2) {
+                                        message = `No poster found for ${responseTD.Similar.Results[i].Name}.`
+                                        var similarImgDiv = $(`<p>${message}</p>`);
+                                        similarMovieDivEl.append(similarIngDiv);
+                                        similarImgDiv.addClass("movie-btn");
+                                        similarImgDiv.attr("data-name", response2.Title);
+                                        similarMovieDivEl.append(similarImgDiv);
+                                    }  // of fail on omdb query for similar movie posters
+                                });  // of ajax call to omdb for similar movie posters
 
-                // add all the suggestions (the DIV) to the page
-                $(listBody).append(similarMovieDivEl);
+                                // var similarImgDiv = $("<img>");
+                                // similarImgDiv.addClass("movie-btn");
+                                // similarImgDiv.attr("src", responseOMDB.Poster);
+                                // similarImgDiv.attr("alt", responseOMDB.title);
+                                // similarImgDiv.attr("data-name", responseTD.Similar.Results[i].Name);
+                                // similarMovieDivEl.append(similarImgDiv);
+                            }; // end of for each similar movie
 
-                // put header & body on the li before appending to the ul
-                $(liEl).append(titleEl); // adds a header to the li
-                $(liEl).append(listBody);  // adds a body to the li after the header
-                $(newCard).prepend(liEl)
-                $("#card-container").prepend(newCard);
-                // Add new movie to the top of the list of searched movies
+                            // add all the suggestions (the DIV) to the page
+                            $(listBody).append(similarMovieDivEl);
 
-                // This has to go in .then block so it doesn't re-open the old first movie before the new one is prepended
+                            // put header & body on the li before appending to the ul
+                            $(liEl).append(titleEl); // adds a header to the li
+                            $(liEl).append(listBody);  // adds a body to the li after the header
+                            $(newCard).prepend(liEl)
+                            $("#card-container").prepend(newCard);
+                            // Add new movie to the top of the list of searched movies
 
-                firstCard.close(); // initial open movie closes 
-                var elem = document.querySelector('.collapsible'); // grabbing new movie dropdown
-                var newMovie = M.Collapsible.init(elem);
-                newMovie.open();
+                            // This has to go in .then block so it doesn't re-open the old first movie before the new one is prepended
 
-            });   // end of ajax query to OMDB for movie searched
-        });   // end of ajax query to NYTimes for review links
-    });  // end of ajax query to TasteDive
-};
+                            firstCard.close(); // initial open movie closes 
+                            var elem = document.querySelector('.collapsible'); // grabbing new movie dropdown
+                            var newMovie = M.Collapsible.init(elem);
+                            newMovie.open();
+
+                        });   // end of ajax query to NY times for movie review
+                    },  // of successful ajax call to tastedive for titles of similar movies
+
+                    fail: function (responseTD) {
+                        //   **** what to do if TD query failed.
+                        var message = "Query for similar movies failed."
+                        var similarImgDiv = $(`<p>${message}</p>`);
+                        similarMovieDivEl.append(similarIngDiv);
+                    }  // of failed ajax call to tastedive for titles of similar movies
+                });  // end of ajax call to tastedive for titles of similar movies
+            };  // end of if movie not found in OMDB call
+        }, // end of success call to omdb for movie details
+        //        error: function(XMLHttpRequest, textStatus, errorThrown) {
+        //            alert("some error");
+        //         }
+        //        },
+        fail: function (responseOMDB) {
+            $(".movie-input").val(`Sorry, ${movie} not found.`);        // put error message in input field
+            movie = "";
+        }  // end of failed call to omdb for movie details
+
+    });  // end of ajax query to OMDB for details on movie searched
+
+};   // of searchMovie function
 
 
 // This is for the movie db to get the default movie
@@ -172,43 +229,10 @@ $.ajax({
     console.log("TMDB response");  // Maura
     console.log(responseTMDB);  // Maura
     var defaultTitle = responseTMDB.results[0].original_title;
-    $("#default").append(defaultTitle);
+    $("#default").val(defaultTitle);
 
-    // This is for the nyt movie review api for the default movie
-    $.ajax({
-        url: `https://api.nytimes.com/svc/movies/v2/reviews/search.json?query=${defaultTitle}&api-key=zZrGvMTHO8rZYgmqMozo6nBXMVSdTemM`,
-        method: "GET"
-    }).then(function (responseNYT) {
-        console.log("NYT response");  // Maura
-        console.log(responseNYT);  // Maura
-        // add a hyperlink element with the link to the NY Times review
-        var hyperlinkEl = $("<a></a>");
-        hyperlinkEl.text([responseNYT.results[0].link.suggested_link_text]);
-        hyperlinkEl.attr("href", responseNYT.results[0].link.url);
-        hyperlinkEl.attr("target", "_target");   // to open review in a new tab
-        $("#default-review").append(hyperlinkEl);
-    });  // end of ajax call to NYTimes for default movie reviews
-
-    // This is for omdb for the default movie
-
-    $.ajax({
-        url: `https://www.omdbapi.com/?t=${defaultTitle}&y=&plot=short&apikey=bdc51342`,
-        method: "GET"
-    }).then(function (responseOMDB) {
-        console.log("OMDB response");  // Maura
-        console.log(responseOMDB);  // Maura
-        // Update all the details on the page with the data retrieved from the ajax call
-        var paragraphEl = $("<p></p>");
-        console.log(responseOMDB.Plot);
-        paragraphEl.text([responseOMDB.Plot]);
-        $("#default-plot").append(paragraphEl);
-        $("#defaultPoster").attr("src", responseOMDB.Poster);
-        $("#defaultYear").text(`Year:  ${responseOMDB.Year}`);
-        $("#defaultDir").text(`Director:  ${responseOMDB.Director}`);
-        $("#defaultMPAA").text(`MPAA Rating:  ${responseOMDB.Rated}`);
-        $("#defaultStars").text(`Stars:  ${responseOMDB.Actors}`);
-        $("#defaultTomatoes").text(`Rotten Tomatoes Rating:  ${responseOMDB.Ratings[1].Value}`);
-    });  // end of ajax call to omdb for default movie
+    searchMovie(defaultTitle);
+    // code here in notepad (Maura)
 
 });  // end of ajax call to themoviedb for popular movie
 
