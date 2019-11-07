@@ -143,6 +143,11 @@ a:hover, a:active {
  /*   height: 2em;  */
 }
 
+.movie-btn {
+    padding: 10px;
+    height: 400px;
+}
+
 /* .label & .input-field keeps the "Search for a movie..." label out of the input box, and makes the text visible (it was gray & hard to see) */
 #label-text {
     margin-top: -10px;
