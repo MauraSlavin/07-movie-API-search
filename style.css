@@ -123,9 +123,10 @@ a:hover, a:active {
 }
 
 /* keep search icon in the input field */
-#search-button {
+/* #search-button {
     margin-top: -10px;
 }
+*/
 
 /* background color for input field (to differentiate it from space around it) */
 /* .input-field {
@@ -139,7 +140,18 @@ a:hover, a:active {
 .movie-input {
     background-color: rgb(250, 236, 209) !important;
     color: red;
-    height: 2em;
+ /*   height: 2em;  */
+}
+
+/* .label & .input-field keeps the "Search for a movie..." label out of the input box, and makes the text visible (it was gray & hard to see) */
+#label-text {
+    margin-top: -10px;
+    color: black;
+    font-size: 20px;
+}
+
+.input-field {
+    margin-top: 30px;
 }
 
 /* highlight header when hovering to make it obvious it's clickable */
@@ -175,7 +187,8 @@ footer {
     }
 
     /* keep search icon by the input field */
-    #search-button {
+    /* #search-button {
         margin-top: 0;
     }
+    */
  }  /* end of block on smaller screens */

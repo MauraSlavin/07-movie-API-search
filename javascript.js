@@ -241,7 +241,7 @@ $(".input-field").keypress(function (event) {
 });
 
 
-$(document).on("click", ".movie-btn", (event) => { // A click event on the whole docuement that only triggers if it also hits something with the class movie-btn
+$(document).on("click", ".movie-btn", (event) => { // A click event on the whole document that only triggers if it also hits something with the class movie-btn
     console.log(event.currentTarget);
     var temp = $(event.currentTarget).attr("data-name"); // setting a variable to the data-name of the clicked button
     $(".movie-input").val(temp); // setting the value of the movie input to the similar movie title
