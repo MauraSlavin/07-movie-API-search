@@ -165,31 +165,81 @@ function searchMovie(movie) {
                             var message;
                             var similarMovieDivEl = $("<div>");
                             similarMovieDivEl.addClass("row center-align s12 m12 l12");
+
+                            var movies = [];
+                            var numMovies = 1;
+                            var noMovies;
+
+                            // are there suggestions?  if length is 0, then no
+                            if (responseTD.Similar.Results.length == 0) {  // no suggestions
+                                movies.push("");
+                                numMovies = 1;
+                                noMovies = true;
+                            }
+                            else {  // there are suggestions!
+                                numMovies = responseTD.Similar.Results.length;
+                                noMovies = false;
+                                for (var i = 0; i < numMovies; i++) {
+                                    movies.push(responseTD.Similar.Results[i].Name);
+                                }
+                            };
+
+                            var getNumMovies = Math.min(numMovies, numSimilarMovies);
                             // add each of the movies to the div
-                            for (var i = 0; i < numSimilarMovies; i++) {
+                            for (var i = 0; i < getNumMovies; i++) {
                                 $.ajax({
                                     method: "GET",
-                                    url: `https://www.omdbapi.com/?t=${responseTD.Similar.Results[i].Name}&y=&plot=short&apikey=bdc51342`,
-                                    success: function (response2) {
+                                    url: `https://www.omdbapi.com/?t=${movies[i]}&y=&plot=short&apikey=bdc51342`,
+                                    success: function (response2, status) {
+                                        console.log("OMDB:");
                                         console.log(response2);
-                                        var similarImgDiv = $("<img>");
-                                        similarImgDiv.addClass("movie-btn");
-                                        similarImgDiv.attr("src", response2.Poster);
-                                        similarImgDiv.attr("alt", response2.title);
-                                        similarImgDiv.attr("data-name", response2.Title);
-                                        similarMovieDivEl.append(similarImgDiv);
+                                        console.log("OMDB.Response:  " + response2.Response);
+                                        console.log("status:  " + status);
+
+                                        if (noMovies) {
+                                            message = 'There are no movie suggestions for this movie.';
+
+                                            var similarImgDiv = $(`<p>${message}</p>`);
+                                            similarMovieDivEl.append(similarImgDiv);
+                                        }
+                                        else {
+                                            // poster found
+                                            var similarImgDiv = $("<img>");
+                                            similarImgDiv.addClass("movie-btn");
+                                            similarImgDiv.attr("src", response2.Poster);
+                                            similarImgDiv.attr("alt", response2.title);
+                                            similarImgDiv.attr("data-name", response2.Title);
+                                            similarMovieDivEl.append(similarImgDiv);
+                                        };
                                     },  // of success on omdb query for similar movie posters
+                                    error: function (xhr, ajaxOptions, thrownError) {
+                                        if (noMovies) {
+                                            message = 'There are no movie suggestions for this movie.';
+                                        }
+                                        else {
+                                            message = `No poster found for ${responseTD.Similar.Results[i].Name}.`
+                                        };
+                                        var similarImgDiv = $(`<p>${message}</p>`);
+                                        similarMovieDivEl.append(similarImgDiv);
+
+                                    },
+
                                     // display message & clickable paragraph if no poster was found.
                                     fail: function (response2) {
-                                        message = `No poster found for ${responseTD.Similar.Results[i].Name}.`
+                                        if (noMovies) {
+                                            message = 'There are no movie suggestions for this movie.';
+                                        }
+                                        else {
+                                            message = `No poster found for ${responseTD.Similar.Results[i].Name}.`
+                                        };
                                         var similarImgDiv = $(`<p>${message}</p>`);
-                                        similarMovieDivEl.append(similarIngDiv);
+;
                                         similarImgDiv.addClass("movie-btn");
                                         similarImgDiv.attr("data-name", response2.Title);
                                         similarMovieDivEl.append(similarImgDiv);
                                     }  // of fail on omdb query for similar movie posters
                                 });  // of ajax call to omdb for similar movie posters
-                                
+
                                 // var similarImgDiv = $("<img>");
                                 // similarImgDiv.addClass("movie-btn");
                                 // similarImgDiv.attr("src", responseOMDB.Poster);
@@ -197,9 +247,9 @@ function searchMovie(movie) {
                                 // similarImgDiv.attr("data-name", responseTD.Similar.Results[i].Name);
                                 // similarMovieDivEl.append(similarImgDiv);
                             }; // end of for each similar movie
-                            var similarMovieMsgEl=$("<p>Here are some suggestions for movies you might like...</p>");
+                            var similarMovieMsgEl = $("<p>Here are some suggestions for movies you might like...</p>");
                             similarMovieDivEl.prepend(similarMovieMsgEl);
-                            
+
                             // add all the suggestions (the DIV) to the page
                             $(listBody).append(similarMovieDivEl);
 
@@ -224,7 +274,7 @@ function searchMovie(movie) {
                         //   **** what to do if TD query failed.
                         var message = "Query for similar movies failed."
                         var similarImgDiv = $(`<p>${message}</p>`);
-                        similarMovieDivEl.append(similarIngDiv);
+                        similarMovieDivEl.append(similarImgDiv);
                     }  // of failed ajax call to tastedive for titles of similar movies
                 });  // end of ajax call to tastedive for titles of similar movies
             };  // end of if movie not found in OMDB call
