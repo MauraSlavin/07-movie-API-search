@@ -27,8 +27,6 @@ function searchMovie(movie) {
         url: `https://www.omdbapi.com/?t=${movie}&y=&plot=short&apikey=bdc51342`,
         method: "GET",
         success: function (responseOMDB) {
-            console.log("OMDB response");  // Maura
-            console.log(responseOMDB);  // Maura
 
             // if movie not found, put error message in input field
             if (responseOMDB.Response == "False") {   // it's a string, not a boolean
@@ -48,8 +46,7 @@ function searchMovie(movie) {
                     method: "GET",
                     type: "POST",
                     success: function (responseTD) {
-                        console.log("TD response");  // Maura
-                        console.log(responseTD);  // Maura
+
                         // put this query nested in the OMDB response so the elements we're appending to exist when we expect them to.
                         // query NYTimes for links to reviews of similar movies
                         var movieLocal = movie.toLowerCase();   // so I can access it after the ajax call; will compare lowercase to api in lowercase
@@ -58,9 +55,6 @@ function searchMovie(movie) {
                             url: `https://api.nytimes.com/svc/movies/v2/reviews/search.json?query=${movie}&api-key=zZrGvMTHO8rZYgmqMozo6nBXMVSdTemM`, //nyt api request
                             method: "GET"
                         }).then(function (responseNYT) {
-                            console.log("NYT response");  // Maura
-                            console.log(responseNYT);  // Maura
-                            console.log("Num results: " + responseNYT.num_results);
 
                             // turn off progress bar
                             $(".progressDiv1").removeClass("progress");
@@ -215,12 +209,16 @@ function searchMovie(movie) {
                                     error: function (xhr, ajaxOptions, thrownError) {
                                         if (noMovies) {
                                             message = 'There are no movie suggestions for this movie.';
+                                            var similarImgDiv = $(`<p>${message}</p>`);
+                                            similarMovieDivEl.append(similarImgDiv);
                                         }
                                         else {
                                             message = `No poster found for ${responseTD.Similar.Results[i].Name}.`
+                                            var similarImgDiv = $(`<p>${message}</p>`);
+                                            similarMovieDivEl.append(similarImgDiv);
+                                            similarImgDiv.addClass("movie-btn");
+                                            similarImgDiv.attr("data-name", response2.Title);
                                         };
-                                        var similarImgDiv = $(`<p>${message}</p>`);
-                                        similarMovieDivEl.append(similarImgDiv);
 
                                     },
 
@@ -228,15 +226,16 @@ function searchMovie(movie) {
                                     fail: function (response2) {
                                         if (noMovies) {
                                             message = 'There are no movie suggestions for this movie.';
+                                            var similarImgDiv = $(`<p>${message}</p>`);
+                                            similarMovieDivEl.append(similarImgDiv);
                                         }
                                         else {
                                             message = `No poster found for ${responseTD.Similar.Results[i].Name}.`
+                                            var similarImgDiv = $(`<p>${message}</p>`);
+                                           similarImgDiv.addClass("movie-btn");
+                                            similarImgDiv.attr("data-name", response2.Title);
+                                            similarMovieDivEl.append(similarImgDiv);
                                         };
-                                        var similarImgDiv = $(`<p>${message}</p>`);
-;
-                                        similarImgDiv.addClass("movie-btn");
-                                        similarImgDiv.attr("data-name", response2.Title);
-                                        similarMovieDivEl.append(similarImgDiv);
                                     }  // of fail on omdb query for similar movie posters
                                 });  // of ajax call to omdb for similar movie posters
 
@@ -271,7 +270,7 @@ function searchMovie(movie) {
                     },  // of successful ajax call to tastedive for titles of similar movies
 
                     fail: function (responseTD) {
-                        //   **** what to do if TD query failed.
+                        //  what to do if TD query failed.
                         var message = "Query for similar movies failed."
                         var similarImgDiv = $(`<p>${message}</p>`);
                         similarMovieDivEl.append(similarImgDiv);
@@ -299,13 +298,12 @@ $.ajax({
     url: "https://cors-anywhere.herokuapp.com/https://api.themoviedb.org/3/discover/movie?page=1&api_key=92dce995d85e4765ae2474cf460816b6",
     method: "GET"
 }).then(function (responseTMDB) {
-    console.log("TMDB response");  // Maura
-    console.log(responseTMDB);  // Maura
+
     var defaultTitle = responseTMDB.results[0].original_title;
     $("#default").val(defaultTitle);
 
     searchMovie(defaultTitle);
-    // code here in notepad (Maura)
+ 
     movieName = '';  // make sure movie name is empty
     $("#search-button").removeClass("hover-class");  // and search icon not highlighted when hovered
 
