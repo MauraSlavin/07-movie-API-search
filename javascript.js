@@ -243,9 +243,10 @@ $(".input-field").keypress(function (event) {
 
 $(document).on("click", ".movie-btn", (event) => { // A click event on the whole document that only triggers if it also hits something with the class movie-btn
     console.log(event.currentTarget);
-    var temp = $(event.currentTarget).attr("data-name"); // setting a variable to the data-name of the clicked button
-    $(".movie-input").val(temp); // setting the value of the movie input to the similar movie title
-
+    movieName = $(event.currentTarget).attr("data-name"); // setting a variable to the data-name of the clicked button
+    $(".movie-input").val(movieName); // setting the value of the movie input to the similar movie title
+    $(".movie-input").focus();
+    
     // taken from https://stackoverflow.com/questions/15935318/smooth-scroll-to-top
 
     const scrollToTop = () => { //declaring the arrow function
