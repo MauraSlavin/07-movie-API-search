@@ -189,7 +189,7 @@ function searchMovie(movie) {
                                         similarMovieDivEl.append(similarImgDiv);
                                     }  // of fail on omdb query for similar movie posters
                                 });  // of ajax call to omdb for similar movie posters
-
+                                
                                 // var similarImgDiv = $("<img>");
                                 // similarImgDiv.addClass("movie-btn");
                                 // similarImgDiv.attr("src", responseOMDB.Poster);
@@ -197,7 +197,9 @@ function searchMovie(movie) {
                                 // similarImgDiv.attr("data-name", responseTD.Similar.Results[i].Name);
                                 // similarMovieDivEl.append(similarImgDiv);
                             }; // end of for each similar movie
-
+                            var similarMovieMsgEl=$("<p>Here are some suggestions for movies you might like...</p>");
+                            similarMovieDivEl.prepend(similarMovieMsgEl);
+                            
                             // add all the suggestions (the DIV) to the page
                             $(listBody).append(similarMovieDivEl);
 
