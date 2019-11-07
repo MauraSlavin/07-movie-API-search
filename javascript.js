@@ -46,6 +46,7 @@ function searchMovie(movie) {
                 url: `https://api.nytimes.com/svc/movies/v2/reviews/search.json?query=${movie}&api-key=zZrGvMTHO8rZYgmqMozo6nBXMVSdTemM`, //nyt api request
                 method: "GET"
             }).then(function (responseNYT) {
+                console.log(responseNYT);
 
                 // turn off progress bar
                 $(".progressDiv1").removeClass("progress");
@@ -117,6 +118,7 @@ function searchMovie(movie) {
                             console.log(response2);
                             var similarImgDiv = $("<img>");
                             similarImgDiv.addClass("movie-btn");
+                            similarImgDiv.addClass("similarPoster")
                             similarImgDiv.attr("src", response2.Poster);
                             similarImgDiv.attr("alt", response2.title);
                             similarImgDiv.attr("data-name", response2.Title);

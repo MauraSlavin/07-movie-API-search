@@ -98,6 +98,12 @@ main {
     width: 100%;
 }
 
+/* Similar movie posters to be in a line and fit the area they are given */
+.similarPoster {
+    display: inline-block;
+    width: 20%;
+}
+
 /* leave a little space between year, director, etc. line items to the right of the poster */
 .movie-det-li {
     margin-bottom: 10px;
