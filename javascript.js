@@ -233,6 +233,8 @@ $.ajax({
 
     searchMovie(defaultTitle);
     // code here in notepad (Maura)
+    movieName = '';  // make sure movie name is empty
+    $("#search-button").removeClass("hover-class");  // and search icon not highlighted when hovered
 
 });  // end of ajax call to themoviedb for popular movie
 
@@ -276,17 +278,19 @@ $(".input-field").keypress(function (event) {
     if (code == 13) {
         searchMovie(movieName);    // do the search
         movieName = '';            // pre for new movie name
+        // field cleared, so the search icon should no longer be highlighted when hovered.
+        $("#search-button").removeClass("hover-class");  // in case there was already a hover-class there; don't want there to be two! (or it won't go away when you expect it to)
     }
     else {                      // character was entered (most likely!)
         // fromCharCode converts the key code to the character entered
         movieName = movieName + String.fromCharCode(event.which);   // append new character to movie name
+        $("#search-button").removeClass("hover-class");  // in case there was already a hover-class there; don't want there to be two! (or it won't go away when you expect it to)
+        // add hover highlighting, since there is something in that field.
+        $("#search-button").addClass("hover-class");
     };
 
     // display either the partial movie name (if not done) or a blank string (if movie searched)
     $(".movie-input").val(movieName);
-    $("#search-button").removeClass("hover-class");  // in case there was already a hover-class there; don't want there to be two! (or it won't go away when you expect it to)
-    // add hover highlighting, since there is something in that field.
-    $("#search-button").addClass("hover-class");
 
 });
 
