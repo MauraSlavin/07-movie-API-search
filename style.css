@@ -3,6 +3,11 @@
     box-sizing: border-box;
 }
 
+body {
+    overflow: scroll;
+}
+
+
 /* fill background with image */
 html, body {
     /*  from https://wallpaperplay.com/board/filmmaking-wallpapers  */

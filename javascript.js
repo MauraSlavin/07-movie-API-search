@@ -371,7 +371,7 @@ $(document).on("click", ".movie-btn", (event) => { // A click event on the whole
     console.log(event.currentTarget);
     movieName = $(event.currentTarget).attr("data-name"); // setting a variable to the data-name of the clicked button
     $(".movie-input").val(movieName); // setting the value of the movie input to the similar movie title
-    $(".movie-input").focus();
+
     // delete the hover-class first, in case there's already one there.  Then add one.
     //   if we end up with 2 hover-class's, there might still be one there when we remove it.
     $("#search-button").removeClass("hover-class");
@@ -384,8 +384,11 @@ $(document).on("click", ".movie-btn", (event) => { // A click event on the whole
         const c = document.documentElement.scrollTop || document.body.scrollTop; //set c to equal to the number of pixels scrolled past the top. the or statement if for cross browser compatibility
         if (c > 0) { // starting an if statement where the condition is whether or not youve scrolled below the top
             window.requestAnimationFrame(scrollToTop); // This is a recursive callback where we stitch together what the function does to give it a smooth look.
-            window.scrollTo(0, c - c / 8); // here we set where we are scrolling to (in this case the top of the page). the second parameter is the speed of the scroll. the reason we do this is because we dont want the scroll to take forever if youre really deep into the page.
+            window.scrollTo(0, Math.floor(c - c / 8)); // here we set where we are scrolling to (in this case the top of the page). the second parameter is the speed of the scroll. the reason we do this is because we dont want the scroll to take forever if youre really deep into the page.
+        } else {
+            $(".movie-input").focus();
         }
     };
     scrollToTop();
+
 });
