@@ -17,7 +17,7 @@ html, body {
     -o-background-size: cover;
     background-size: cover;
     /*  Interesting font, size relative to screen size (bigger for smaller screens below) */
-    font-family: 'Indie Flower', cursive;
+    font-family: 'Acme', sans-serif;
     font-size: 2vw;
     font-weight: bolder;
 }
