@@ -1,67 +1,53 @@
-# 07-music-API-search
-A music API search
-yeehaw, partner!
+# 07-movie-API-search    
+https://mauraslavin.github.io/07-movie-API-search/
+
+##Finding Films
+
+- Find movies you’re guaranteed to love!
+- Based on what you already adore.
+- Fantastically easy to search for new movies.
+- Stars! Ratings! Reviews! And more!  Quickly and easily available.
+- Lots of pictures!
+
+This app finds movies similar to ones you already enjoy, to help you find a new movie to watch that you'll love!
+
+The page loads with the most popular movie from "The Movie Database" API.
+
+Displayed are the movie poster, and these details about the movie to the right of the poster:
+    - Year released;
+    - Director;
+    - MPAA rating;
+    - Stars;
+    - Rotten Tomatoes rating.
+
+The plot, a link to a NY Times review, and posters of suggested similar movies are displayed next.
+
+* [Finding Films](screenshot.png)
+
+The user can search a new movie in two ways:
+1.  clicking on a recommended poster
+        (which puts the movie name in the search field), then click on the search icon or hit enter; or
+2.  entering a new movie name, and clicking the search icon or hitting enter.
+
+The new movie is loaded the same as the first movie, with the first movie existing as collapsed element at the bottom of the page.
+
+This process can be repeated as often as desired, with newly searched movies appending to the top of the page.
+
+It is responsive to different screen sizes.
+
+The following api's are used:
+-   omdbapi.com for year, director, MPAA rating, stars, rotten tomatoes rating, poster, plot
+-   api.nytimes.com for NY Times reviews
+-   tastedive.com for suggested movies
+-   api.themoviedb.org for the default movie
+
+It uses Materialize CSS.
+
+The following errors are caught and communicated to the user:
+- No movie found
+- No Rotten Tomatoes rating found (another pulled, or message saying none found if there are none)
+- No movie poster found
+- No other movie suggestions found
 
 
-A default movie is loaded on the home page when the user first loads the site.
-
-The user can enter a movie name.  Then movie information is displayed for that movie, 
-and a list of movies similar to that is loaded after the information about the original movie.
-
-When one of the similar movies is clicked, that title is displayed in the search box, 
-and the page is moved to the top (if it had scrolled down).
-
-When the user then clicks the text box, the movie information is replaced with the similar movie the user has chosen.
-
-On further iterations, movies searched are appended to the end of the page (with most recent searches on top), 
-in a collapsible list.  When a movie name is uncollapsed, the movie information is displayed under the movie name in the list at the bottom of the page (in its current location in the list of searched movies).
-
-The movie information displayed is:
-- Title
-- Poster
-- Year released
-- Director's name
-- Rating
-- NY Times review
-- Meta-rating
-  
-
-
-## Class names
-* .movieInputEl - div for input or textarea for user to enter movie name being searched
-* .cardEl - div containing the movie title (under the input field) through the list of similar movies
-* .titleEl - div for movie title
-* .posterEl - div containing the image of the movie poster
-* .yearEtcEl - div for row with year, director & rating (G, PG, etc.)
-* .starsEl - div for list of stars
-* .reviewEl - div for NY Times review
-* .ratingEl - div for meta-rating
-* .similarMoviesUlEl - div for unordered list of similar movies
-* .similarMoviesLiEl - div for list item
-
-
-
-## Variable names
-movie = {
-
-    title:      // string - title name 
-    
-    poster:     // string - url to image
-    
-    year:       // string - year released
-    
-    director:   // string - name of director
-    
-    rating:     // string - rating (G, PG, R, etc.)
-    
-    similarMovies:  // array of strings - ["movie title 1", "movie title 2", ...]
-    
-    review:     // string - text of the review
-    
-    metaRating: // ??
-    
-}
-
-movies = [movie1, movie2, ...]  // array of movie objects
-
-inputMovie                      // string - name of movie that user input
+Let us help you find a movie you know you'll enjoy!
