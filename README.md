@@ -1,7 +1,7 @@
 # 07-movie-API-search    
 https://mauraslavin.github.io/07-movie-API-search/
 
-##Finding Films
+## Finding Films
 
 - Find movies you’re guaranteed to love!
 - Based on what you already adore.
