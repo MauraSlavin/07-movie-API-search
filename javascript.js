@@ -65,7 +65,7 @@ function searchMovie(movie) {
                             var newCard = $(".collapsible");
                             var liEl = $('<li class="new-movie"></li>');  //New li for each movie//
                             // card header is the title
-                            var titleEl = $(`<div class="collapsible-header titleEl"><i class="material-icons">arrow_drop_down_circle</i>${responseOMDB.Title}</div>`);
+                            var titleEl = $(`<div class="collapsible-header titleEl"><i class="fas fa-film"></i>${responseOMDB.Title}</div>`);
                             // card body has the rest of the info
                             var listBody = $('<div class="collapsible-body">');
                             // new row has the poster, year, director, MPAA rating, stars
