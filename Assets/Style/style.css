@@ -11,7 +11,7 @@ body {
 /* fill background with image */
 html, body {
     /*  from https://wallpaperplay.com/board/filmmaking-wallpapers  */
-    background: url(background.png) no-repeat center center fixed;
+    background: url("../../Assets/Images/background.png") no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -61,7 +61,7 @@ main {
 /* background for header; have it stretch to fill width */
 .nav-wrapper {
     /* https://www.vectorstock.com/royalty-free-vector/silhouette-curtain-vector-1958265 */
-    background-image: url("curtain.png");
+    background-image: url("../../Assets/Images/curtain.png");
     height: 100px;
     background-repeat: no-repeat;
     background-size: auto;
@@ -189,7 +189,7 @@ a:hover, a:active {
 /* interesting sticky footer */
 footer {
     /* https://www.sccpre.cat/show/TRihbJ_audience-clipart-theatre-audience-transparent-theatre-audience-clipart/ */
-    background-image: url("crowd.png");
+    background-image: url("../../Assets/Images/crowd.png");
     height: 100px;
 }
 

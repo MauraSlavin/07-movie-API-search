@@ -22,7 +22,7 @@ Displayed are the movie poster, and these details about the movie to the right o
 
 The plot, a link to a NY Times review, and posters of suggested similar movies are displayed next.
 
-* [Finding Films](screenshot.png)
+* [Finding Films](/Assets/Images/screenshot.pngscreenshot.png)
 
 The user can search a new movie in two ways:
 1.  clicking on a recommended poster
