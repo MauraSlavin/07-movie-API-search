@@ -6,6 +6,7 @@ Github pages: [GitHub pages](https://github.com/MauraSlavin/07-movie-API-search)
 ## Finding Films
 
 This app finds movies similar to ones you already enjoy, to help you find a new movie to watch that you'll love!
+
 - Find movies you’re guaranteed to love!
 - Based on what you already adore.
 - Fantastically easy to search for new movies.
